@@ -1,0 +1,8 @@
+C:\Users\Administrator\Desktop\SwarmLink-master\SwarmLink-master\RobSense_Drone_Swarm_Control_Station\RobSense_Drone_Swarm_Control_Station\bin\Debug\EasySwarm.exe.config
+C:\Users\Administrator\Desktop\SwarmLink-master\SwarmLink-master\RobSense_Drone_Swarm_Control_Station\RobSense_Drone_Swarm_Control_Station\bin\Debug\EasySwarm.exe
+C:\Users\Administrator\Desktop\SwarmLink-master\SwarmLink-master\RobSense_Drone_Swarm_Control_Station\RobSense_Drone_Swarm_Control_Station\bin\Debug\EasySwarm.pdb
+C:\Users\Administrator\Desktop\SwarmLink-master\SwarmLink-master\RobSense_Drone_Swarm_Control_Station\RobSense_Drone_Swarm_Control_Station\obj\Debug\RobSense_Drone_Swarm_Control_Station.EasySwarm.resources
+C:\Users\Administrator\Desktop\SwarmLink-master\SwarmLink-master\RobSense_Drone_Swarm_Control_Station\RobSense_Drone_Swarm_Control_Station\obj\Debug\EasySwarm.Properties.Resources.resources
+C:\Users\Administrator\Desktop\SwarmLink-master\SwarmLink-master\RobSense_Drone_Swarm_Control_Station\RobSense_Drone_Swarm_Control_Station\obj\Debug\SwarmLink.csproj.GenerateResource.Cache
+C:\Users\Administrator\Desktop\SwarmLink-master\SwarmLink-master\RobSense_Drone_Swarm_Control_Station\RobSense_Drone_Swarm_Control_Station\obj\Debug\EasySwarm.exe
+C:\Users\Administrator\Desktop\SwarmLink-master\SwarmLink-master\RobSense_Drone_Swarm_Control_Station\RobSense_Drone_Swarm_Control_Station\obj\Debug\EasySwarm.pdb
