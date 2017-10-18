@@ -107,7 +107,6 @@
             this.label8 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.btn_link_plane = new CCWin.SkinControl.SkinButton();
-            this.webBrowser1 = new System.Windows.Forms.WebBrowser();
             this.skinTabPage1 = new CCWin.SkinControl.SkinTabPage();
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
             this.btn_refresh_com = new CCWin.SkinControl.SkinButton();
@@ -133,6 +132,7 @@
             this.btn_open_close = new CCWin.SkinControl.SkinButton();
             this.skinLabel7 = new CCWin.SkinControl.SkinLabel();
             this.skinTabControl1 = new CCWin.SkinControl.SkinTabControl();
+            this.gMapControl1 = new GMap.NET.WindowsForms.GMapControl();
             this.skinTabPage4.SuspendLayout();
             this.skinTabControl2.SuspendLayout();
             this.skinTabPage5.SuspendLayout();
@@ -991,12 +991,12 @@
             // skinTabPage2
             // 
             this.skinTabPage2.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.skinTabPage2.Controls.Add(this.gMapControl1);
             this.skinTabPage2.Controls.Add(this.skinGroupBox12);
             this.skinTabPage2.Controls.Add(this.skinGroupBox4);
             this.skinTabPage2.Controls.Add(this.skinGroupBox3);
             this.skinTabPage2.Controls.Add(this.skinGroupBox11);
             this.skinTabPage2.Controls.Add(this.skinGroupBox5);
-            this.skinTabPage2.Controls.Add(this.webBrowser1);
             this.skinTabPage2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.skinTabPage2.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.skinTabPage2.ImageIndex = 1;
@@ -1458,17 +1458,6 @@
             this.btn_link_plane.UseVisualStyleBackColor = false;
             this.btn_link_plane.Click += new System.EventHandler(this.btn_link_plane_Click);
             // 
-            // webBrowser1
-            // 
-            this.webBrowser1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.webBrowser1.Location = new System.Drawing.Point(389, 0);
-            this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
-            this.webBrowser1.Name = "webBrowser1";
-            this.webBrowser1.Size = new System.Drawing.Size(623, 430);
-            this.webBrowser1.TabIndex = 197;
-            // 
             // skinTabPage1
             // 
             this.skinTabPage1.BackColor = System.Drawing.Color.WhiteSmoke;
@@ -1876,10 +1865,36 @@
             this.skinTabControl1.PageImagePosition = CCWin.SkinControl.SkinTabControl.ePageImagePosition.Top;
             this.skinTabControl1.PageNorml = null;
             this.skinTabControl1.PageNormlTxtColor = System.Drawing.Color.White;
-            this.skinTabControl1.SelectedIndex = 0;
+            this.skinTabControl1.SelectedIndex = 1;
             this.skinTabControl1.Size = new System.Drawing.Size(1012, 664);
             this.skinTabControl1.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.skinTabControl1.TabIndex = 0;
+            // 
+            // gMapControl1
+            // 
+            this.gMapControl1.Bearing = 0F;
+            this.gMapControl1.CanDragMap = true;
+            this.gMapControl1.EmptyTileColor = System.Drawing.Color.Navy;
+            this.gMapControl1.GrayScaleMode = false;
+            this.gMapControl1.HelperLineOption = GMap.NET.WindowsForms.HelperLineOptions.DontShow;
+            this.gMapControl1.LevelsKeepInMemmory = 5;
+            this.gMapControl1.Location = new System.Drawing.Point(384, 3);
+            this.gMapControl1.MarkersEnabled = true;
+            this.gMapControl1.MaxZoom = 2;
+            this.gMapControl1.MinZoom = 2;
+            this.gMapControl1.MouseWheelZoomType = GMap.NET.MouseWheelZoomType.MousePositionAndCenter;
+            this.gMapControl1.Name = "gMapControl1";
+            this.gMapControl1.NegativeMode = false;
+            this.gMapControl1.PolygonsEnabled = true;
+            this.gMapControl1.RetryLoadTile = 0;
+            this.gMapControl1.RoutesEnabled = true;
+            this.gMapControl1.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
+            this.gMapControl1.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
+            this.gMapControl1.ShowTileGridLines = false;
+            this.gMapControl1.Size = new System.Drawing.Size(620, 466);
+            this.gMapControl1.TabIndex = 209;
+            this.gMapControl1.Zoom = 0D;
+            this.gMapControl1.Load += new System.EventHandler(this.gMapControl1_Load);
             // 
             // EasySwarm
             // 
@@ -2018,7 +2033,6 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label5;
         private CCWin.SkinControl.SkinButton btn_link_plane;
-        private System.Windows.Forms.WebBrowser webBrowser1;
         private CCWin.SkinControl.SkinTabPage skinTabPage1;
         private System.Windows.Forms.PictureBox pictureBox5;
         private CCWin.SkinControl.SkinButton btn_refresh_com;
@@ -2049,6 +2063,7 @@
         private CCWin.SkinControl.SkinButton btn_cleargps;
         private CCWin.SkinControl.SkinGroupBox skinGroupBox12;
         private System.Windows.Forms.Label lab_aoto;
+        private GMap.NET.WindowsForms.GMapControl gMapControl1;
     }
 }
 

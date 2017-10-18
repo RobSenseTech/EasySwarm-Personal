@@ -26,12 +26,17 @@ namespace RobSense_Drone_Swarm_Control_Station
             List<byte> get_data = new List<byte>();
             if (data.Count > 24)
             {
-                get_data = _loraframe.analyze(data);
+                get_data.AddRange(_loraframe.analyze(data));
+                //foreach (byte i in get_data)
+                //{
+                //    Console.Write("{0:X} ",i);
+                //}
             }
-            byte Length = get_data[0];
+            //Console.WriteLine();
+            byte Length = get_data[2];
             byte[] Addr = new byte[2];
-            Addr[0] = data[1];
-            Addr[1] = data[2];
+            Addr[0] = data[0];
+            Addr[1] = data[1];
             byte[] MAV_Data = new byte[Length];
             data.CopyTo(3, MAV_Data, 0, Length);
             if (Length == 36)
@@ -39,6 +44,7 @@ namespace RobSense_Drone_Swarm_Control_Station
                 lat = (float)(((MAV_Data[10]) | (MAV_Data[11] << 8) | (MAV_Data[12] << 16) | (MAV_Data[13] << 24)) / 10000000.0);
                 lon = (float)(((MAV_Data[14]) | (MAV_Data[15] << 8) | (MAV_Data[16] << 16) | (MAV_Data[17] << 24)) / 10000000.0);
                 //hdg = (float)(((MAV_Data[32]) | (MAV_Data[33] << 8)) / 100.0);
+                Console.WriteLine(lat);
                 func(Addr, lat, lon);
             }
             return Frame_Last_Send(Addr, MAV_Data);
@@ -116,13 +122,27 @@ namespace RobSense_Drone_Swarm_Control_Station
         public byte[] Clear_0B = new byte[] { 0XFE, 0X06, 0X72, 0XFF, 0XBE, 0X42, 0X06, 0X00, 0X01, 0X01, 0X0B, 0X00, 0XBA, 0X80 };
         public byte[] Add_GPS = new byte[] { 0XFE, 0X06, 0X6F, 0XFF, 0XBE, 0X42, 0X02, 0X00, 0X01, 0X01, 0X06, 0X01, 0X40, 0XCF };
         public byte[] Clear_GPS = new byte[] { 0XFE, 0X06, 0X6F, 0XFF, 0XBE, 0X42, 0X02, 0X00, 0X01, 0X01, 0X06, 0X00, 0X98, 0XD6 };
-        public byte[] Arm = new byte[] { 0XFE, 0X21, 0X00, 0XFF, 0XBE, 0X4C, 0X00, 0X00, 0X80, 0X3F, 0X00, 0X98, 0XA5, 0X46, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X90, 0X01, 0X01, 0X01, 0X00, 0XEB, 0X6C };
-        public byte[] Disarm = new byte[] { 0xFE, 0x21, 0x5C, 0xFF, 0xBE, 0x4C, 0x00, 0x00, 0x00, 0x00, 0x00, 0x98, 0xA5, 0x46, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x90, 0x01, 0x01, 0x01, 0x00, 0x2B, 0xD9 };
-        public byte[] Arm2 = new byte[] { 0XFE, 0X21, 0X00, 0XFF, 0XBE, 0X4C, 0X00, 0X00, 0X80, 0X3F, 0X00, 0X98, 0XA5, 0X46, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X90, 0X01, 0X01, 0X01, 0X00, 0XEB, 0X6C, 0XFE, 0X21, 0X00, 0XFF, 0XBE, 0X4C, 0X00, 0X00, 0X80, 0X3F, 0X00, 0X98, 0XA5, 0X46, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X90, 0X01, 0X01, 0X01, 0X00, 0XEB, 0X6C };
-        public byte[] RTL = new byte[] { 0XFE, 0X06, 0X39, 0XFF, 0XBE, 0X0B, 0X04, 0X00, 0X00, 0X00, 0X01, 0X01, 0X5B, 0X91, 0XFE, 0X21, 0X42, 0XFF, 0XBE, 0X4C, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X80, 0X3F, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X14, 0X00, 0X01, 0X01, 0X00, 0X9A, 0XA2 };
+        public byte[] Arm = new byte[] { 0XFE, 0X21, 0X00, 0XFF, 0XBE, 0X4C, 0X00, 0X00, 0X80, 0X3F, 0X00, 0X98, 0XA5, 0X46, 0X00,
+                                                         0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00,
+                                                         0X00, 0X00, 0X00, 0X00, 0X90, 0X01, 0X01, 0X01, 0X00, 0XEB, 0X6C };
+        public byte[] Disarm = new byte[] { 0xFE, 0x21, 0x5C, 0xFF, 0xBE, 0x4C, 0x00, 0x00, 0x00, 0x00, 0x00, 0x98, 0xA5, 0x46, 0x00,
+                                                             0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                                                             0x00, 0x00, 0x00, 0x00, 0x90, 0x01, 0x01, 0x01, 0x00, 0x2B, 0xD9 };
+        public byte[] Arm2 = new byte[] { 0XFE, 0X21, 0X00, 0XFF, 0XBE, 0X4C, 0X00, 0X00, 0X80, 0X3F, 0X00, 0X98, 0XA5, 0X46, 0X00,
+                                                           0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00,
+                                                           0X00, 0X00, 0X00, 0X00, 0X90, 0X01, 0X01, 0X01, 0X00, 0XEB, 0X6C, 0XFE, 0X21, 0X00, 0XFF,
+                                                           0XBE, 0X4C, 0X00, 0X00, 0X80, 0X3F, 0X00, 0X98, 0XA5, 0X46, 0X00, 0X00, 0X00, 0X00, 0X00,
+                                                           0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00,
+                                                           0X90, 0X01, 0X01, 0X01, 0X00, 0XEB, 0X6C };
+        public byte[] RTL = new byte[] { 0XFE, 0X06, 0X39, 0XFF, 0XBE, 0X0B, 0X04, 0X00, 0X00, 0X00, 0X01, 0X01, 0X5B, 0X91, 0XFE,
+                                                         0X21, 0X42, 0XFF, 0XBE, 0X4C, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00,
+                                                         0X80, 0X3F, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00,
+                                                         0X00, 0X00, 0X00, 0X14, 0X00, 0X01, 0X01, 0X00, 0X9A, 0XA2 };
         public byte[] Fly2here(float high, float lat, float lon)
         {
-            byte[] data = new byte[45] { 0XFE, 0X25, 0X61, 0XFF, 0XBE, 0X27, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0XEC, 0X83, 0XF1, 0X41, 0X04, 0X45, 0XF0, 0X42, 0X00, 0X00, 0X70, 0X41, 0X00, 0X00, 0X10, 0X00, 0X01, 0X01, 0X03, 0X02, 0X01, 0X00, 0X00 };
+            byte[] data = new byte[45] { 0XFE, 0X25, 0X61, 0XFF, 0XBE, 0X27, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00,
+                                                       0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0X00, 0XEC, 0X83, 0XF1, 0X41, 0X04, 0X45, 0XF0, 0X42,
+                                                       0X00, 0X00, 0X70, 0X41, 0X00, 0X00, 0X10, 0X00, 0X01, 0X01, 0X03, 0X02, 0X01, 0X00, 0X00 };
 
             byte[] Lat_Float = BitConverter.GetBytes(lat);
             byte[] Lon_Float = BitConverter.GetBytes(lon);

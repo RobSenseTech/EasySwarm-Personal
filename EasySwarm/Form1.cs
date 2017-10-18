@@ -7,6 +7,10 @@ using System.Drawing;
 using System.Timers;
 using System.IO;
 using System.Text;
+using GMap.NET.WindowsForms;
+using GMap.NET.WindowsForms.Markers;
+using GMap.NET.MapProviders;
+using GMap.NET;
 
 namespace RobSense_Drone_Swarm_Control_Station
 {
@@ -20,6 +24,7 @@ namespace RobSense_Drone_Swarm_Control_Station
         System.Timers.Timer aTimer = new System.Timers.Timer();
         System.Timers.Timer bTimer = new System.Timers.Timer();
         System.Timers.Timer cTimer = new System.Timers.Timer();
+        System.Timers.Timer gmapTimer = new System.Timers.Timer();
         int Timer_Cnt = 0;
         int Timer_Cnt_B = 0;
         int Timer_Cnt_C = 0;
@@ -34,6 +39,9 @@ namespace RobSense_Drone_Swarm_Control_Station
         float base_lat;
         float base_lon;
         string path = @"test.txt";
+        GMapOverlay realRouteOverlay;
+        GMarkerGoogle realRoutemarker;
+
         public EasySwarm()
         {
             
@@ -67,7 +75,7 @@ namespace RobSense_Drone_Swarm_Control_Station
             //webBrowser init.
             _ieVersion = new IEversion();
             _ieVersion.BrowserEmulationSet();
-            webBrowser1.Navigate("http://www.tanjingdeng.com/new_test/");
+            //webBrowser1.Navigate("http://www.tanjingdeng.com/new_test/");
             //ProgressBar init.
             ProgressBar.Minimum = 0;
             ProgressBar.Maximum = 100;
@@ -75,18 +83,31 @@ namespace RobSense_Drone_Swarm_Control_Station
             //treeview init.
             tn = treeview_online_node.Nodes.Add("在线节点");
             //Timer init.
-            aTimer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
-            bTimer.Elapsed += new ElapsedEventHandler(tOnTimedEvent);
+            aTimer.Elapsed += new ElapsedEventHandler(aOnTimedEvent);
+            bTimer.Elapsed += new ElapsedEventHandler(bOnTimedEvent);
             cTimer.Elapsed += new ElapsedEventHandler(cOnTimedEvent);
+            gmapTimer.Elapsed += new ElapsedEventHandler(gmapOnTimedEvent);
             //mavlink init.
             _mavLink = new Mavlink();
             _mavLink.lab_statue = lab_statue;
             _mavLink.listBox2 = listBox2;
-            //flight parameters
+            //flight parameters init.
             txt_lat.Text = "0";
             txt_lon.Text = "0";
             txt_alt.Text = "15";
-            
+            //gmap init.
+            gMapControl1.CacheLocation = System.Windows.Forms.Application.StartupPath;
+            //lab_mapname.Text = gMapControl1.MapProvider.Name;
+            gMapControl1.MapProvider = GMapProviders.GoogleChinaHybridMap;
+            gMapControl1.Manager.Mode = AccessMode.ServerAndCache;
+            gMapControl1.MinZoom = 1;                                                     //最小比例
+            gMapControl1.MaxZoom = 23;                                                    //最大比例
+            gMapControl1.Zoom = 4;                                                       //当前比例
+            gMapControl1.ShowCenter = false;                                              //不显示中心十字点
+            gMapControl1.DragButton = System.Windows.Forms.MouseButtons.Left;             //左键拖拽地图
+            gMapControl1.Position = new PointLatLng(30, 120);   //地图初始位置
+            //this.gMapControl1.Overlays.Add(overlay);
+            this.gMapControl1.MouseClick += gMapControl1_MouseClick;
         }
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -108,6 +129,11 @@ namespace RobSense_Drone_Swarm_Control_Station
                     //_socket.Flag = true;
                     //_socket.Socket_2server_buf.AddRange(_mavLink.Data_Anlyze(_loraframe.Re_Buf));
                     _mavLink.Data_Anlyze(re_buf);
+                    //foreach (byte i in re_buf)
+                    //{
+                    //    Console.Write("{0:X} ", i);
+                    //}
+                    //Console.WriteLine();
                 }
                 else
                 {
@@ -304,7 +330,7 @@ namespace RobSense_Drone_Swarm_Control_Station
             }
 
         }
-        private void OnTimedEvent(object source, ElapsedEventArgs e)
+        private void aOnTimedEvent(object source, ElapsedEventArgs e)
         {
             try
             {
@@ -417,6 +443,15 @@ namespace RobSense_Drone_Swarm_Control_Station
         {
             try
             {
+                //byte[] nodemac = new byte[2] { 0x00, 0x01 };
+                //byte[] get_data = _loraframe.unicast(nodemac,_mavLink.Clear_0A);
+                //_serialPort.Write(get_data, 0, get_data.Length);        //Send data.
+
+                //byte[] get_data1 = _loraframe.unicast(nodemac,_mavLink.Clear_0B);
+                //_serialPort.Write(get_data1, 0, get_data1.Length);        //Send data.
+
+                //byte[] get_data2 = _loraframe.unicast(nodemac,_mavLink.Add_GPS);
+                //_serialPort.Write(get_data2, 0, get_data2.Length);        //Send data.
                 byte[] get_data = _loraframe.broadcast(_mavLink.Clear_0A);
                 _serialPort.Write(get_data, 0, get_data.Length);        //Send data.
 
@@ -425,6 +460,8 @@ namespace RobSense_Drone_Swarm_Control_Station
 
                 byte[] get_data2 = _loraframe.broadcast(_mavLink.Add_GPS);
                 _serialPort.Write(get_data2, 0, get_data2.Length);        //Send data.
+                gmapTimer.Interval = 1000;
+                gmapTimer.Enabled = true;
             }
             catch (Exception exp)
             {
@@ -438,7 +475,7 @@ namespace RobSense_Drone_Swarm_Control_Station
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.ShowDialog();
             path = ofd.FileName;
-            lab_aoto.Text = "已成功导入文件";
+            lab_aoto.Text = "Import Successfully！";
             //foreach (int i in oneline[3].position)
             //{
             //    Console.WriteLine(i);
@@ -563,7 +600,7 @@ namespace RobSense_Drone_Swarm_Control_Station
                 Console.WriteLine(base_lon);
             }
         }
-        private void tOnTimedEvent(object source, ElapsedEventArgs e)
+        private void bOnTimedEvent(object source, ElapsedEventArgs e)
         {
             int i = Timer_Cnt_B++;
             show_func(position[i, 0], position[i, 1], position[i, 2], position[i, 3], position[i, 4],
@@ -777,5 +814,56 @@ namespace RobSense_Drone_Swarm_Control_Station
             _serialPort.Write(get_data, 0, get_data.Length);        //Send data.
         }
         #endregion
+        void gMapControl1_MouseClick(object sender, MouseEventArgs e)
+        {
+            PointLatLng p = this.gMapControl1.FromLocalToLatLng(e.X, e.Y);//将鼠标点击点坐标转换为经纬度坐标
+            #region Marker操作
+
+            GMapMarker marker = new GMarkerGoogle(p, GMarkerGoogleType.arrow);
+            marker.ToolTipText = "点击了这个点";
+            //this.overlay.Markers.Add(marker);
+
+            #endregion
+            #region Routes操作
+            //overlay.Routes.Clear();
+
+            //GMapRoute route= new GMapRoute(list, "line");
+            //route.Stroke.Color = Color.Red;
+            //route.Stroke.Width = 2;  //设置画
+            //overlay.Routes.Add(route);
+
+            #endregion 
+            #region Polygons操作
+
+            //overlay.Polygons.Clear();
+
+            //GMapPolygon polygon = new GMapPolygon(list, "多边形");
+            //polygon.Fill = new SolidBrush(Color.FromArgb(50, Color.Red));
+            //polygon.Stroke = new Pen(Color.Blue,2);
+            //polygon.IsHitTestVisible = true;
+            //overlay.Polygons.Add(polygon);
+
+            #endregion
+
+        }
+        private void gMapControl1_Load(object sender, EventArgs e)
+        {
+            realRouteOverlay = new GMapOverlay("realroute");
+        }
+        private void gmapOnTimedEvent(object source, ElapsedEventArgs e)
+        {
+            //gMapControl1.Position = new PointLatLng(lat, lon);
+            //GMapMarker marker = new GMarkerGoogle(p, GMarkerGoogleType.arrow);
+            //marker.ToolTipText = "点击了这个点";
+            List<GMapMarker> marker = new List<GMapMarker>(_mavLink.node_gps.Count);
+            realRouteOverlay.Clear();
+            for (int i = 0; i < _mavLink.node_gps.Count; i++)
+            {
+                realRoutemarker = new GMarkerGoogle(new PointLatLng(_mavLink.node_gps[i].lat, _mavLink.node_gps[i].lon), GMarkerGoogleType.green);
+                realRouteOverlay.Markers.Add(realRoutemarker);//增加新的定位点
+                marker[i].ToolTipText = _mavLink.node_gps[i].node[0].ToString() + _mavLink.node_gps[i].node[1].ToString();
+                gMapControl1.Overlays.Add(realRouteOverlay);//以下代码添加航线绘制
+            }
+        }
     }
 }
