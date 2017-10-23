@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace RobSense_Drone_Swarm_Control_Station
+namespace EasySwarm
 {
     class Mavlink
     {
@@ -29,22 +29,27 @@ namespace RobSense_Drone_Swarm_Control_Station
                 get_data.AddRange(_loraframe.analyze(data));
                 //foreach (byte i in get_data)
                 //{
-                //    Console.Write("{0:X} ",i);
+                //    Console.Write("{0:X} ", i);
                 //}
             }
             //Console.WriteLine();
             byte Length = get_data[2];
             byte[] Addr = new byte[2];
-            Addr[0] = data[0];
-            Addr[1] = data[1];
+            Addr[0] = get_data[0];
+            Addr[1] = get_data[1];
             byte[] MAV_Data = new byte[Length];
-            data.CopyTo(3, MAV_Data, 0, Length);
+            data.CopyTo(32, MAV_Data, 0, Length);
+            //foreach (byte i in MAV_Data)
+            //{
+            //    Console.Write("{0:X} ", i);
+            //}
+            //Console.WriteLine();
             if (Length == 36)
             {
                 lat = (float)(((MAV_Data[10]) | (MAV_Data[11] << 8) | (MAV_Data[12] << 16) | (MAV_Data[13] << 24)) / 10000000.0);
                 lon = (float)(((MAV_Data[14]) | (MAV_Data[15] << 8) | (MAV_Data[16] << 16) | (MAV_Data[17] << 24)) / 10000000.0);
                 //hdg = (float)(((MAV_Data[32]) | (MAV_Data[33] << 8)) / 100.0);
-                Console.WriteLine(lat);
+                //Console.WriteLine(lat);
                 func(Addr, lat, lon);
             }
             return Frame_Last_Send(Addr, MAV_Data);
@@ -98,7 +103,15 @@ namespace RobSense_Drone_Swarm_Control_Station
             {
                 Console.WriteLine("GET:   addr: {0:X} {1:X}\t lat:{2}\t lon:{3}\t number:{4}", node_gps[i].node[0], node_gps[i].node[1], lat, lon, node_gps.Count);
             }
-            lab_statue.Text = "已连接飞行器数量：" + node_gps.Count.ToString();
+            if (StartForm.ENorCH)
+            {
+                lab_statue.Text = "The number of connected drones：" + node_gps.Count.ToString();
+            }
+            else
+            {
+                lab_statue.Text = "已连接飞行器数量：" + node_gps.Count.ToString();
+            }
+            
             //Console.WriteLine("GET:   addr: {0:X} {1:X}\t lat:{2}\t lon:{3}\t number:{4}", node_gps[0].node[0], node_gps[0].node[1], lat, lon,node_gps.Count);
         }
         private byte[] Frame_Last_Send(byte[] addr, byte[] data)

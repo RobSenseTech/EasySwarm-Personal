@@ -11,10 +11,13 @@ using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
 using GMap.NET.MapProviders;
 using GMap.NET;
+using System.Xml;
+using System.Data;
+using System.Resources;
 
-namespace RobSense_Drone_Swarm_Control_Station
+namespace EasySwarm
 {
-    public partial class EasySwarm : CCSkinMain
+    public partial class Easyswarm : CCSkinMain
     {
         SerialPort _serialPort;
         IEversion _ieVersion;
@@ -42,9 +45,10 @@ namespace RobSense_Drone_Swarm_Control_Station
         GMapOverlay realRouteOverlay;
         GMarkerGoogle realRoutemarker;
 
-        public EasySwarm()
+        public static object Properties { get; private set; }
+
+        public Easyswarm()
         {
-            
             InitializeComponent();
             Control.CheckForIllegalCrossThreadCalls = false;
             //Serialport init.
@@ -81,7 +85,16 @@ namespace RobSense_Drone_Swarm_Control_Station
             ProgressBar.Maximum = 100;
             ProgressBar.ForeColor = Color.Red;
             //treeview init.
-            tn = treeview_online_node.Nodes.Add("在线节点");
+            Console.WriteLine(StartForm.ENorCH);
+            if (StartForm.ENorCH)
+            {
+                tn = treeview_online_node.Nodes.Add("Online Node");
+            }
+            else
+            {
+                tn = treeview_online_node.Nodes.Add("在线节点");
+            }
+
             //Timer init.
             aTimer.Elapsed += new ElapsedEventHandler(aOnTimedEvent);
             bTimer.Elapsed += new ElapsedEventHandler(bOnTimedEvent);
@@ -98,24 +111,51 @@ namespace RobSense_Drone_Swarm_Control_Station
             //gmap init.
             gMapControl1.CacheLocation = System.Windows.Forms.Application.StartupPath;
             //lab_mapname.Text = gMapControl1.MapProvider.Name;
-            gMapControl1.MapProvider = GMapProviders.GoogleChinaHybridMap;
+            gMapControl1.MapProvider = GMapProviders.BingHybridMap;
             gMapControl1.Manager.Mode = AccessMode.ServerAndCache;
-            gMapControl1.MinZoom = 1;                                                     //最小比例
-            gMapControl1.MaxZoom = 23;                                                    //最大比例
+            gMapControl1.MinZoom = 1;                                                     //Minimum proportion
+            gMapControl1.MaxZoom = 23;                                                    //The maximum proportion
             gMapControl1.Zoom = 4;                                                       //当前比例
             gMapControl1.ShowCenter = false;                                              //不显示中心十字点
             gMapControl1.DragButton = System.Windows.Forms.MouseButtons.Left;             //左键拖拽地图
             gMapControl1.Position = new PointLatLng(30, 120);   //地图初始位置
             //this.gMapControl1.Overlays.Add(overlay);
             this.gMapControl1.MouseClick += gMapControl1_MouseClick;
+            //btn_open_close init.
+            if (StartForm.ENorCH)
+            {
+                btn_open_close.Text = "Open SerialPort";
+            }
+            else
+            {
+                btn_open_close.Text = "打开串口";
+            }
         }
+
         private void Form1_Load(object sender, EventArgs e)
         {
+            //Load language
+            MultiLanguage.LoadLanguage(this, typeof(Easyswarm));
+            if (StartForm.ENorCH)
+            {
+                System.Resources.ResourceManager rs = new System.Resources.ResourceManager(typeof(Easyswarm));
+                pictureBox1.Image = (System.Drawing.Image)rs.GetObject("picture2");
+                //pictureBox1.Image = image;
+                pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            }
+            else
+            {
+                System.Resources.ResourceManager rs = new System.Resources.ResourceManager(typeof(Easyswarm));
+                pictureBox1.Image = (System.Drawing.Image)rs.GetObject("picture1");
+                pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            }
         }
+
         private void sp_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            byte[] buf = new byte[_serialPort.BytesToRead];//Creat receive array.              
-            _serialPort.Read(buf, 0, _serialPort.BytesToRead);//Read receive data.            
+            int tmp = _serialPort.BytesToRead;
+            byte[] buf = new byte[tmp];//Creat receive array.   
+            _serialPort.Read(buf, 0, tmp);//Read receive data.            
             byte[] re_buf_temp = _loraframe.decode(buf);
             if (re_buf_temp != null)
             {
@@ -141,6 +181,7 @@ namespace RobSense_Drone_Swarm_Control_Station
                 }
             }
         }
+
         private void CMD_Process()
         {
 
@@ -221,34 +262,64 @@ namespace RobSense_Drone_Swarm_Control_Station
         {
             try
             {
-                if (btn_open_close.Text.Equals("打开串口"))
+                if (StartForm.ENorCH)
                 {
-                    _serialPort.BaudRate = Convert.ToInt32(cbx_baud_select.Text);           //Baud rate
-                    _serialPort.PortName = cbx_com_select.Text;          //Name
-                    _serialPort.Open();                 //Open UART      
-                    if (_serialPort.IsOpen)
+                    if (btn_open_close.Text.Equals("Open SerialPort"))
                     {
-                        btn_open_close.Text = "关闭串口";
-                        _serialPort.Write(_loraframe.cmd_refresh_ap(), 0, _loraframe.cmd_refresh_ap().Length);//Send refresh cmd.
-                        ProgressBar.Value = 100;
-                    }                    
+                        _serialPort.BaudRate = Convert.ToInt32(cbx_baud_select.Text);           //Baud rate
+                        _serialPort.PortName = cbx_com_select.Text;          //Name
+                        _serialPort.Open();                 //Open UART      
+                        if (_serialPort.IsOpen)
+                        {
+                            btn_open_close.Text = "Close SerialPort";
+                            _serialPort.Write(_loraframe.cmd_refresh_ap(), 0, _loraframe.cmd_refresh_ap().Length);//Send refresh cmd.
+                            ProgressBar.Value = 100;
+                        }
+                    }
+                    else
+                    {
+                        btn_open_close.Text = "Open SerialPort";
+                        _serialPort.Close();
+                        ProgressBar.Value = 0;
+                        listBox1.Items.Clear();
+                        listBox2.Items.Clear();
+                        listBox2.Items.Add("ALL");
+                        tn.Nodes.Clear();
+                    }
                 }
                 else
-                {                    
-                    btn_open_close.Text = "打开串口";
-                    _serialPort.Close();
-                    ProgressBar.Value = 0;
-                    listBox1.Items.Clear();
-                    listBox2.Items.Clear();
-                    listBox2.Items.Add("所有飞行器");
-                    tn.Nodes.Clear();
+                {
+                    if (btn_open_close.Text.Equals("打开串口"))
+                    {
+                        _serialPort.BaudRate = Convert.ToInt32(cbx_baud_select.Text);           //Baud rate
+                        _serialPort.PortName = cbx_com_select.Text;          //Name
+                        _serialPort.Open();                 //Open UART      
+                        if (_serialPort.IsOpen)
+                        {
+                            btn_open_close.Text = "关闭串口";
+                            _serialPort.Write(_loraframe.cmd_refresh_ap(), 0, _loraframe.cmd_refresh_ap().Length);//Send refresh cmd.
+                            ProgressBar.Value = 100;
+                        }
+                    }
+                    else
+                    {
+                        btn_open_close.Text = "打开串口";
+                        _serialPort.Close();
+                        ProgressBar.Value = 0;
+                        listBox1.Items.Clear();
+                        listBox2.Items.Clear();
+                        listBox2.Items.Add("ALL");
+                        tn.Nodes.Clear();
+                    }
                 }
+                
             }
             catch (Exception exp)
             {
                 Console.WriteLine(exp);
             }
         }
+
         private void btn_refresh_com_Click(object sender, EventArgs e)
         {
             try
@@ -266,6 +337,7 @@ namespace RobSense_Drone_Swarm_Control_Station
                 Console.WriteLine(exp.ToString());
             }
         }
+
         private void btn_add_Click(object sender, EventArgs e)
         {
             try
@@ -292,6 +364,7 @@ namespace RobSense_Drone_Swarm_Control_Station
                 MessageBox.Show(exp.ToString());
             }
         }
+
         private void btn_del_Click(object sender, EventArgs e)
         {
             try
@@ -314,6 +387,7 @@ namespace RobSense_Drone_Swarm_Control_Station
             }
 
         }
+
         private void btn_refresh_Click(object sender, EventArgs e)
         {
             try
@@ -330,6 +404,7 @@ namespace RobSense_Drone_Swarm_Control_Station
             }
 
         }
+
         private void aOnTimedEvent(object source, ElapsedEventArgs e)
         {
             try
@@ -353,20 +428,36 @@ namespace RobSense_Drone_Swarm_Control_Station
                 MessageBox.Show(exp.ToString());
             }
         }
+
         #endregion
         #region Page2
         private void btn_arm_Click(object sender, EventArgs e)
         {
-            byte[] get_data = _loraframe.broadcast(_mavLink.stabilize);
+            //broadcast
+            byte[] get_data = _loraframe.broadcast(_mavLink.Arm);
             _serialPort.Write(get_data, 0, get_data.Length);
+            //multicast
+            //byte[] node_mac = new byte[18] { 0x00, 0x01, 0x00, 0x02, 0x00, 0x03, 0x00, 0x04, 0x00, 0x05, 0x00, 0x06, 0x00, 0x07, 0x00, 0x08, 0x00, 0x09 };
+            //byte[] get_data = _loraframe.multicast(node_mac, _mavLink.Arm);
+            //_serialPort.Write(get_data, 0, get_data.Length);
+            //unicast
+            //for (int i = 0; i < _mavLink.node_gps.Count; i++)
+            //{
+            //    byte[] node_mac = new byte[2];
+            //    node_mac[0] = _mavLink.node_gps[i].node[0];
+            //    node_mac[1] = _mavLink.node_gps[i].node[1];
+            //    byte[] get_data = _loraframe.unicast(node_mac, _mavLink.Arm);
+            //    _serialPort.Write(get_data, 0, get_data.Length);
+            //}
         }
+
         private void btn_takeoff_Click(object sender, EventArgs e)
         {
             try
             {
-                byte[] get_data = _loraframe.broadcast(_mavLink.guide);              
-                _serialPort.Write(get_data, 0, get_data.Length);
-                get_data = _loraframe.broadcast(_mavLink.Takeoff(Convert.ToInt32(txt_alt.Text)));              
+                //byte[] get_data = _loraframe.broadcast(_mavLink.guide);              
+                //_serialPort.Write(get_data, 0, get_data.Length);
+                byte[] get_data = _loraframe.broadcast(_mavLink.Takeoff(Convert.ToInt32(txt_alt.Text)));              
                 _serialPort.Write(get_data, 0, get_data.Length);
             }
             catch (Exception exp)
@@ -374,6 +465,7 @@ namespace RobSense_Drone_Swarm_Control_Station
                 Console.WriteLine(exp);
             }
         }
+
         private void btn_rtl_Click(object sender, EventArgs e)
         {
             try
@@ -386,6 +478,7 @@ namespace RobSense_Drone_Swarm_Control_Station
                 MessageBox.Show("Please input UART.");
             }
         }
+
         private void btn_stabilize_Click(object sender, EventArgs e)
         {
             try
@@ -398,6 +491,7 @@ namespace RobSense_Drone_Swarm_Control_Station
                 MessageBox.Show(exp.ToString());
             }
         }
+
         private void btn_guide_Click(object sender, EventArgs e)
         {
             try
@@ -410,11 +504,13 @@ namespace RobSense_Drone_Swarm_Control_Station
                 MessageBox.Show(exp.ToString());
             }
         }
+
         private void btn_disarm_Click(object sender, EventArgs e)
         {
             byte[] get_data = _loraframe.broadcast(_mavLink.Disarm);
             _serialPort.Write(get_data, 0, get_data.Length);
         }
+
         private void btn_FTH_Click(object sender, EventArgs e)
         {
             try
@@ -439,6 +535,7 @@ namespace RobSense_Drone_Swarm_Control_Station
                 MessageBox.Show(exp.ToString());
             }
         }
+
         private void btn_link_plane_Click(object sender, EventArgs e)
         {
             try
@@ -460,7 +557,7 @@ namespace RobSense_Drone_Swarm_Control_Station
 
                 byte[] get_data2 = _loraframe.broadcast(_mavLink.Add_GPS);
                 _serialPort.Write(get_data2, 0, get_data2.Length);        //Send data.
-                gmapTimer.Interval = 1000;
+                gmapTimer.Interval = 1200;
                 gmapTimer.Enabled = true;
             }
             catch (Exception exp)
@@ -469,6 +566,7 @@ namespace RobSense_Drone_Swarm_Control_Station
                 throw;
             }
         }
+
         private void btn_file_Click(object sender, EventArgs e)
         {
 
@@ -481,6 +579,7 @@ namespace RobSense_Drone_Swarm_Control_Station
             //    Console.WriteLine(i);
             //}
         }
+
         private void btn_show_Click(object sender, EventArgs e)
         {
             StreamReader sr = new StreamReader(path, Encoding.Default);
@@ -506,6 +605,7 @@ namespace RobSense_Drone_Swarm_Control_Station
             cTimer.Interval = 1000;
             cTimer.Enabled = true;
         }
+
         private void cOnTimedEvent(object source, ElapsedEventArgs e)
         {
             switch (Timer_Cnt_C++)
@@ -600,6 +700,7 @@ namespace RobSense_Drone_Swarm_Control_Station
                 Console.WriteLine(base_lon);
             }
         }
+
         private void bOnTimedEvent(object source, ElapsedEventArgs e)
         {
             int i = Timer_Cnt_B++;
@@ -627,6 +728,7 @@ namespace RobSense_Drone_Swarm_Control_Station
                 }
             }
         }
+
         private void show_func(int mac_a1, int mac_a2, int mac_b1, int mac_b2, int mac_c1, int mac_c2, int mac_d1, int mac_d2, int mac_e1, int mac_e2, int lat_a, int lon_a, int lat_b, int lon_b, int lat_c, int lon_c, int lat_d, int lon_d, int lat_e, int lon_e, int alt_a, int alt_b, int alt_c, int alt_d, int alt_e)
         {
             byte[] node_mac = new byte[2];
@@ -655,12 +757,14 @@ namespace RobSense_Drone_Swarm_Control_Station
             get_data = _loraframe.unicast(node_mac, _mavLink.Fly2here(alt_e, base_lat + (float)(lat_e * 0.00006), base_lon + (float)(lon_e * 0.00006)));
             _serialPort.Write(get_data, 0, get_data.Length);        //Send data.
         }
+
         private void btn_cleargps_Click(object sender, EventArgs e)
         {
             byte[] clear_gps = { 0xFE, 0x06, 0x70, 0xFF, 0xBE, 0x42, 0x06, 0x00, 0x01, 0x01, 0x06, 0x00, 0xE7, 0xD4 };
             byte[] get_data = _loraframe.broadcast(clear_gps);
             _serialPort.Write(get_data, 0, get_data.Length);
         }
+
         #endregion
         #region Page3
         private void btn_go_Click(object sender, EventArgs e)
@@ -684,6 +788,7 @@ namespace RobSense_Drone_Swarm_Control_Station
             }
 
         }
+
         private void btn_back_Click(object sender, EventArgs e)
         {
             try
@@ -703,6 +808,7 @@ namespace RobSense_Drone_Swarm_Control_Station
                 MessageBox.Show(exp.ToString());
             }
         }
+
         private void btn_stop_Click(object sender, EventArgs e)
         {
             try
@@ -723,6 +829,7 @@ namespace RobSense_Drone_Swarm_Control_Station
             }
 
         }
+
         private void btn_line_Click(object sender, EventArgs e)
         {
             try
@@ -742,6 +849,7 @@ namespace RobSense_Drone_Swarm_Control_Station
                 MessageBox.Show(exp.ToString());
             }
         }
+
         private void btn_all_go_Click(object sender, EventArgs e)
         {
             try
@@ -756,6 +864,7 @@ namespace RobSense_Drone_Swarm_Control_Station
             }
 
         }
+
         private void btn_all_back_Click(object sender, EventArgs e)
         {
             try
@@ -769,6 +878,7 @@ namespace RobSense_Drone_Swarm_Control_Station
                 MessageBox.Show(exp.ToString());
             }
         }
+
         private void btn_all_stop_Click(object sender, EventArgs e)
         {
             try
@@ -782,6 +892,7 @@ namespace RobSense_Drone_Swarm_Control_Station
                 MessageBox.Show(exp.ToString());
             }
         }
+
         private void btn_all_line_Click(object sender, EventArgs e)
         {
             try
@@ -795,6 +906,7 @@ namespace RobSense_Drone_Swarm_Control_Station
                 MessageBox.Show(exp.ToString());
             }
         }
+
         #endregion
         #region Page4
         private void btn_set_node_mac_Click(object sender, EventArgs e)
@@ -813,57 +925,42 @@ namespace RobSense_Drone_Swarm_Control_Station
             byte[] get_data = _loraframe.set_node_mac(mac_o, mac_n);         
             _serialPort.Write(get_data, 0, get_data.Length);        //Send data.
         }
+
         #endregion
         void gMapControl1_MouseClick(object sender, MouseEventArgs e)
         {
-            PointLatLng p = this.gMapControl1.FromLocalToLatLng(e.X, e.Y);//将鼠标点击点坐标转换为经纬度坐标
-            #region Marker操作
-
-            GMapMarker marker = new GMarkerGoogle(p, GMarkerGoogleType.arrow);
-            marker.ToolTipText = "点击了这个点";
-            //this.overlay.Markers.Add(marker);
-
-            #endregion
-            #region Routes操作
-            //overlay.Routes.Clear();
-
-            //GMapRoute route= new GMapRoute(list, "line");
-            //route.Stroke.Color = Color.Red;
-            //route.Stroke.Width = 2;  //设置画
-            //overlay.Routes.Add(route);
-
-            #endregion 
-            #region Polygons操作
-
-            //overlay.Polygons.Clear();
-
-            //GMapPolygon polygon = new GMapPolygon(list, "多边形");
-            //polygon.Fill = new SolidBrush(Color.FromArgb(50, Color.Red));
-            //polygon.Stroke = new Pen(Color.Blue,2);
-            //polygon.IsHitTestVisible = true;
-            //overlay.Polygons.Add(polygon);
-
-            #endregion
-
         }
+
         private void gMapControl1_Load(object sender, EventArgs e)
         {
             realRouteOverlay = new GMapOverlay("realroute");
         }
+
         private void gmapOnTimedEvent(object source, ElapsedEventArgs e)
         {
-            //gMapControl1.Position = new PointLatLng(lat, lon);
-            //GMapMarker marker = new GMarkerGoogle(p, GMarkerGoogleType.arrow);
-            //marker.ToolTipText = "点击了这个点";
-            List<GMapMarker> marker = new List<GMapMarker>(_mavLink.node_gps.Count);
-            realRouteOverlay.Clear();
-            for (int i = 0; i < _mavLink.node_gps.Count; i++)
+            BeginInvoke((MethodInvoker)delegate
             {
-                realRoutemarker = new GMarkerGoogle(new PointLatLng(_mavLink.node_gps[i].lat, _mavLink.node_gps[i].lon), GMarkerGoogleType.green);
-                realRouteOverlay.Markers.Add(realRoutemarker);//增加新的定位点
-                marker[i].ToolTipText = _mavLink.node_gps[i].node[0].ToString() + _mavLink.node_gps[i].node[1].ToString();
-                gMapControl1.Overlays.Add(realRouteOverlay);//以下代码添加航线绘制
-            }
+                try
+                {
+                    //gMapControl1.Position = new PointLatLng(lat, lon);
+                    //GMapMarker marker = new GMarkerGoogle(p, GMarkerGoogleType.arrow);
+                    GMapMarker[] marker = new GMapMarker[_mavLink.node_gps.Count];
+                    realRouteOverlay.Clear();
+                    for (int i = 0; i < _mavLink.node_gps.Count; i++)
+                    {
+                        //PointLatLng p = this.gMapControl1.FromLocalToLatLng(e.X, e.Y);//将鼠标点击点坐标转换为经纬度坐标
+                        //GMapMarker marker = new GMarkerGoogle(p, GMarkerGoogleType.arrow);
+                        marker[i] = new GMarkerGoogle(new PointLatLng(_mavLink.node_gps[i].lat, _mavLink.node_gps[i].lon), GMarkerGoogleType.green_small);
+                        marker[i].ToolTipText = "Node: " + _mavLink.node_gps[i].node[0].ToString() + _mavLink.node_gps[i].node[1].ToString();
+                        realRouteOverlay.Markers.Add(marker[i]);//Add a new anchor point
+                        gMapControl1.Overlays.Add(realRouteOverlay);
+                    }
+                }
+                catch
+                {
+                }
+            });
+
         }
     }
 }

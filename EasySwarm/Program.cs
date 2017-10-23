@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace RobSense_Drone_Swarm_Control_Station
+namespace EasySwarm
 {
     static class Program
     {
@@ -13,7 +13,7 @@ namespace RobSense_Drone_Swarm_Control_Station
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new EasySwarm());
+            Application.Run(new StartForm());
         }
     }
 }

@@ -2,20 +2,20 @@
 using System;
 using System.Diagnostics;
 
-namespace RobSense_Drone_Swarm_Control_Station
+namespace EasySwarm
 {
     class IEversion
     {
         /// <summary>
-              /// IE WebBrowser内核设置
+              /// IE WebBrowser Kernel settings
               /// </summary>
         public void BrowserEmulationSet()
         {
-            //当前程序名称
+            //Current program name
             var exeName = Process.GetCurrentProcess().ProcessName + ".exe";
-            //系统注册表信息
+            //System registry information
             var mreg = Registry.LocalMachine;
-            //IE注册表信息
+            //IE registry information
             var ie = mreg.OpenSubKey(@"SOFTWARE\Microsoft\Internet Explorer\MAIN\FeatureControl\FEATURE_BROWSER_EMULATION", RegistryKeyPermissionCheck.ReadWriteSubTree);
             if (ie != null)
             {
@@ -36,16 +36,16 @@ namespace RobSense_Drone_Swarm_Control_Station
         }
 
         /// <summary>
-              /// IE版本号
+              /// IE version number
               /// </summary>
               /// <returns></returns>
         static int ieVersion()
         {
-            //IE版本号
+            //IE version number
             RegistryKey mreg = Registry.LocalMachine;
             mreg = mreg.CreateSubKey("SOFTWARE\\Microsoft\\Internet Explorer");
 
-            //更新版本
+            //updated version
             var svcVersion = mreg.GetValue("svcVersion");
             if (svcVersion != null)
             {
@@ -55,7 +55,7 @@ namespace RobSense_Drone_Swarm_Control_Station
             }
             else
             {
-                //默认版本
+                //Default version
                 var ieVersion = mreg.GetValue("Version");
                 mreg.Close();
                 if (ieVersion != null)
@@ -68,7 +68,7 @@ namespace RobSense_Drone_Swarm_Control_Station
         }
 
         /// <summary>
-              /// 根据IE版本号 返回Emulation值
+              /// Returns the Emulation value according to the IE version number
               /// </summary>
               /// <param name="ieVersion"></param>
               /// <returns></returns>

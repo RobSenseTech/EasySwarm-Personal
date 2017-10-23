@@ -1,6 +1,6 @@
-﻿namespace RobSense_Drone_Swarm_Control_Station
+﻿namespace EasySwarm
 {
-    partial class EasySwarm
+    partial class Easyswarm
     {
         /// <summary>
         /// 必需的设计器变量。
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EasySwarm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Easyswarm));
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.imageList2 = new System.Windows.Forms.ImageList(this.components);
             this.skinLabel1 = new CCWin.SkinControl.SkinLabel();
@@ -59,11 +59,6 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.skinButton25 = new CCWin.SkinControl.SkinButton();
             this.label2 = new System.Windows.Forms.Label();
-            this.skinTabPage8 = new CCWin.SkinControl.SkinTabPage();
-            this.skinGroupBox10 = new CCWin.SkinControl.SkinGroupBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.skinButton12 = new CCWin.SkinControl.SkinButton();
-            this.label14 = new System.Windows.Forms.Label();
             this.skinTabPage3 = new CCWin.SkinControl.SkinTabPage();
             this.skinGroupBox1 = new CCWin.SkinControl.SkinGroupBox();
             this.btn_all_stop = new CCWin.SkinControl.SkinButton();
@@ -80,6 +75,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.skinTabPage2 = new CCWin.SkinControl.SkinTabPage();
+            this.gMapControl1 = new GMap.NET.WindowsForms.GMapControl();
             this.skinGroupBox12 = new CCWin.SkinControl.SkinGroupBox();
             this.lab_aoto = new System.Windows.Forms.Label();
             this.btn_show = new CCWin.SkinControl.SkinButton();
@@ -104,18 +100,14 @@
             this.skinGroupBox5 = new CCWin.SkinControl.SkinGroupBox();
             this.btn_cleargps = new CCWin.SkinControl.SkinButton();
             this.lab_statue = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
             this.btn_link_plane = new CCWin.SkinControl.SkinButton();
             this.skinTabPage1 = new CCWin.SkinControl.SkinTabPage();
-            this.pictureBox5 = new System.Windows.Forms.PictureBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.btn_refresh_com = new CCWin.SkinControl.SkinButton();
             this.btn_refresh = new CCWin.SkinControl.SkinButton();
             this.btn_del = new CCWin.SkinControl.SkinButton();
             this.btn_add = new CCWin.SkinControl.SkinButton();
             this.treeview_online_node = new System.Windows.Forms.TreeView();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.cbx_baud_select = new CCWin.SkinControl.SkinComboBox();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.skinLabel12 = new CCWin.SkinControl.SkinLabel();
@@ -132,7 +124,6 @@
             this.btn_open_close = new CCWin.SkinControl.SkinButton();
             this.skinLabel7 = new CCWin.SkinControl.SkinLabel();
             this.skinTabControl1 = new CCWin.SkinControl.SkinTabControl();
-            this.gMapControl1 = new GMap.NET.WindowsForms.GMapControl();
             this.skinTabPage4.SuspendLayout();
             this.skinTabControl2.SuspendLayout();
             this.skinTabPage5.SuspendLayout();
@@ -143,8 +134,6 @@
             this.skinTabPage7.SuspendLayout();
             this.skinGroupBox7.SuspendLayout();
             this.skinGroupBox6.SuspendLayout();
-            this.skinTabPage8.SuspendLayout();
-            this.skinGroupBox10.SuspendLayout();
             this.skinTabPage3.SuspendLayout();
             this.skinGroupBox1.SuspendLayout();
             this.skinGroupBox2.SuspendLayout();
@@ -155,8 +144,6 @@
             this.skinGroupBox11.SuspendLayout();
             this.skinGroupBox5.SuspendLayout();
             this.skinTabPage1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.skinPanel2.SuspendLayout();
             this.skinTabControl1.SuspendLayout();
@@ -186,11 +173,11 @@
             this.skinLabel1.AutoSize = true;
             this.skinLabel1.BackColor = System.Drawing.Color.Transparent;
             this.skinLabel1.BorderColor = System.Drawing.Color.White;
-            this.skinLabel1.Font = new System.Drawing.Font("微软雅黑", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.skinLabel1.Font = new System.Drawing.Font("微软雅黑", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.skinLabel1.ForeColor = System.Drawing.Color.White;
-            this.skinLabel1.Location = new System.Drawing.Point(335, 38);
+            this.skinLabel1.Location = new System.Drawing.Point(346, 43);
             this.skinLabel1.Name = "skinLabel1";
-            this.skinLabel1.Size = new System.Drawing.Size(413, 39);
+            this.skinLabel1.Size = new System.Drawing.Size(342, 31);
             this.skinLabel1.TabIndex = 143;
             this.skinLabel1.Text = "EasySwarm无人系统集控平台";
             // 
@@ -216,7 +203,6 @@
             this.skinTabControl2.CloseRect = new System.Drawing.Rectangle(2, 2, 12, 12);
             this.skinTabControl2.Controls.Add(this.skinTabPage5);
             this.skinTabControl2.Controls.Add(this.skinTabPage7);
-            this.skinTabControl2.Controls.Add(this.skinTabPage8);
             this.skinTabControl2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.skinTabControl2.HeadBack = null;
             this.skinTabControl2.ImageList = this.imageList2;
@@ -241,7 +227,7 @@
             this.skinTabControl2.PageNorml = ((System.Drawing.Image)(resources.GetObject("skinTabControl2.PageNorml")));
             this.skinTabControl2.PageNormlTxtColor = System.Drawing.Color.Gray;
             this.skinTabControl2.PageTextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.skinTabControl2.SelectedIndex = 0;
+            this.skinTabControl2.SelectedIndex = 1;
             this.skinTabControl2.Size = new System.Drawing.Size(1012, 584);
             this.skinTabControl2.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.skinTabControl2.TabIndex = 143;
@@ -299,7 +285,7 @@
             "1",
             "2",
             "3"});
-            this.skinComboBox8.Location = new System.Drawing.Point(452, 43);
+            this.skinComboBox8.Location = new System.Drawing.Point(553, 43);
             this.skinComboBox8.Name = "skinComboBox8";
             this.skinComboBox8.Size = new System.Drawing.Size(100, 35);
             this.skinComboBox8.TabIndex = 205;
@@ -309,7 +295,7 @@
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("微软雅黑", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label11.Location = new System.Drawing.Point(314, 45);
+            this.label11.Location = new System.Drawing.Point(338, 45);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(117, 28);
             this.label11.TabIndex = 204;
@@ -319,7 +305,7 @@
             // 
             this.cbox_node_mac1.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.cbox_node_mac1.FormattingEnabled = true;
-            this.cbox_node_mac1.Location = new System.Drawing.Point(159, 44);
+            this.cbox_node_mac1.Location = new System.Drawing.Point(232, 44);
             this.cbox_node_mac1.Name = "cbox_node_mac1";
             this.cbox_node_mac1.Size = new System.Drawing.Size(100, 35);
             this.cbox_node_mac1.TabIndex = 193;
@@ -387,7 +373,7 @@
             "1",
             "2",
             "3"});
-            this.skinComboBox10.Location = new System.Drawing.Point(159, 37);
+            this.skinComboBox10.Location = new System.Drawing.Point(241, 37);
             this.skinComboBox10.Name = "skinComboBox10";
             this.skinComboBox10.Size = new System.Drawing.Size(100, 35);
             this.skinComboBox10.TabIndex = 193;
@@ -493,7 +479,7 @@
             // 
             this.txt_new_mac.BackColor = System.Drawing.Color.White;
             this.txt_new_mac.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txt_new_mac.Location = new System.Drawing.Point(498, 39);
+            this.txt_new_mac.Location = new System.Drawing.Point(519, 37);
             this.txt_new_mac.Name = "txt_new_mac";
             this.txt_new_mac.Size = new System.Drawing.Size(100, 34);
             this.txt_new_mac.TabIndex = 205;
@@ -512,7 +498,7 @@
             // 
             this.cbox_node_mac2.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.cbox_node_mac2.FormattingEnabled = true;
-            this.cbox_node_mac2.Location = new System.Drawing.Point(150, 39);
+            this.cbox_node_mac2.Location = new System.Drawing.Point(201, 39);
             this.cbox_node_mac2.Name = "cbox_node_mac2";
             this.cbox_node_mac2.Size = new System.Drawing.Size(100, 35);
             this.cbox_node_mac2.TabIndex = 193;
@@ -577,7 +563,7 @@
             // 
             this.textBox1.BackColor = System.Drawing.Color.White;
             this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox1.Location = new System.Drawing.Point(232, 36);
+            this.textBox1.Location = new System.Drawing.Point(288, 36);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(100, 34);
             this.textBox1.TabIndex = 204;
@@ -612,87 +598,6 @@
             this.label2.Size = new System.Drawing.Size(169, 28);
             this.label2.TabIndex = 44;
             this.label2.Text = "输入新MAC地址";
-            // 
-            // skinTabPage8
-            // 
-            this.skinTabPage8.BackColor = System.Drawing.Color.White;
-            this.skinTabPage8.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.skinTabPage8.Controls.Add(this.skinGroupBox10);
-            this.skinTabPage8.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.skinTabPage8.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.skinTabPage8.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(47)))), ((int)(((byte)(170)))), ((int)(((byte)(15)))));
-            this.skinTabPage8.ImageIndex = 1;
-            this.skinTabPage8.Location = new System.Drawing.Point(150, 0);
-            this.skinTabPage8.Margin = new System.Windows.Forms.Padding(0);
-            this.skinTabPage8.Name = "skinTabPage8";
-            this.skinTabPage8.Size = new System.Drawing.Size(862, 584);
-            this.skinTabPage8.TabIndex = 4;
-            this.skinTabPage8.TabItemImage = null;
-            this.skinTabPage8.Text = "广播测试";
-            // 
-            // skinGroupBox10
-            // 
-            this.skinGroupBox10.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.skinGroupBox10.BackColor = System.Drawing.Color.Transparent;
-            this.skinGroupBox10.BorderColor = System.Drawing.Color.DarkGray;
-            this.skinGroupBox10.Controls.Add(this.textBox3);
-            this.skinGroupBox10.Controls.Add(this.skinButton12);
-            this.skinGroupBox10.Controls.Add(this.label14);
-            this.skinGroupBox10.Font = new System.Drawing.Font("微软雅黑", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.skinGroupBox10.ForeColor = System.Drawing.Color.SlateGray;
-            this.skinGroupBox10.Location = new System.Drawing.Point(4, 1);
-            this.skinGroupBox10.Name = "skinGroupBox10";
-            this.skinGroupBox10.RectBackColor = System.Drawing.Color.White;
-            this.skinGroupBox10.RoundStyle = CCWin.SkinClass.RoundStyle.All;
-            this.skinGroupBox10.Size = new System.Drawing.Size(850, 102);
-            this.skinGroupBox10.TabIndex = 205;
-            this.skinGroupBox10.TabStop = false;
-            this.skinGroupBox10.Text = "广播";
-            this.skinGroupBox10.TitleBorderColor = System.Drawing.Color.Gray;
-            this.skinGroupBox10.TitleRectBackColor = System.Drawing.Color.WhiteSmoke;
-            this.skinGroupBox10.TitleRoundStyle = CCWin.SkinClass.RoundStyle.All;
-            // 
-            // textBox3
-            // 
-            this.textBox3.BackColor = System.Drawing.Color.White;
-            this.textBox3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox3.Location = new System.Drawing.Point(175, 22);
-            this.textBox3.Multiline = true;
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(467, 71);
-            this.textBox3.TabIndex = 204;
-            // 
-            // skinButton12
-            // 
-            this.skinButton12.BackColor = System.Drawing.Color.Transparent;
-            this.skinButton12.BaseColor = System.Drawing.Color.Gray;
-            this.skinButton12.BorderColor = System.Drawing.Color.White;
-            this.skinButton12.ControlState = CCWin.SkinClass.ControlState.Normal;
-            this.skinButton12.DownBack = null;
-            this.skinButton12.DownBaseColor = System.Drawing.Color.Gray;
-            this.skinButton12.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.skinButton12.ForeColor = System.Drawing.Color.White;
-            this.skinButton12.IsDrawGlass = false;
-            this.skinButton12.Location = new System.Drawing.Point(648, 22);
-            this.skinButton12.MouseBack = null;
-            this.skinButton12.MouseBaseColor = System.Drawing.Color.Gray;
-            this.skinButton12.Name = "skinButton12";
-            this.skinButton12.NormlBack = null;
-            this.skinButton12.Size = new System.Drawing.Size(196, 73);
-            this.skinButton12.TabIndex = 203;
-            this.skinButton12.Text = "发送";
-            this.skinButton12.UseVisualStyleBackColor = false;
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Font = new System.Drawing.Font("微软雅黑", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label14.Location = new System.Drawing.Point(31, 42);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(138, 28);
-            this.label14.TabIndex = 44;
-            this.label14.Text = "输入广播内容";
             // 
             // skinTabPage3
             // 
@@ -1007,6 +912,35 @@
             this.skinTabPage2.TabItemImage = null;
             this.skinTabPage2.Text = "无人机";
             // 
+            // gMapControl1
+            // 
+            this.gMapControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gMapControl1.Bearing = 0F;
+            this.gMapControl1.CanDragMap = true;
+            this.gMapControl1.EmptyTileColor = System.Drawing.Color.Navy;
+            this.gMapControl1.GrayScaleMode = false;
+            this.gMapControl1.HelperLineOption = GMap.NET.WindowsForms.HelperLineOptions.DontShow;
+            this.gMapControl1.LevelsKeepInMemmory = 5;
+            this.gMapControl1.Location = new System.Drawing.Point(387, 3);
+            this.gMapControl1.MarkersEnabled = true;
+            this.gMapControl1.MaxZoom = 2;
+            this.gMapControl1.MinZoom = 2;
+            this.gMapControl1.MouseWheelZoomType = GMap.NET.MouseWheelZoomType.MousePositionAndCenter;
+            this.gMapControl1.Name = "gMapControl1";
+            this.gMapControl1.NegativeMode = false;
+            this.gMapControl1.PolygonsEnabled = true;
+            this.gMapControl1.RetryLoadTile = 0;
+            this.gMapControl1.RoutesEnabled = true;
+            this.gMapControl1.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
+            this.gMapControl1.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
+            this.gMapControl1.ShowTileGridLines = false;
+            this.gMapControl1.Size = new System.Drawing.Size(617, 539);
+            this.gMapControl1.TabIndex = 209;
+            this.gMapControl1.Zoom = 0D;
+            this.gMapControl1.Load += new System.EventHandler(this.gMapControl1_Load);
+            // 
             // skinGroupBox12
             // 
             this.skinGroupBox12.BackColor = System.Drawing.Color.Transparent;
@@ -1015,11 +949,11 @@
             this.skinGroupBox12.Controls.Add(this.btn_show);
             this.skinGroupBox12.Controls.Add(this.btn_file);
             this.skinGroupBox12.ForeColor = System.Drawing.Color.Gray;
-            this.skinGroupBox12.Location = new System.Drawing.Point(197, 359);
+            this.skinGroupBox12.Location = new System.Drawing.Point(175, 359);
             this.skinGroupBox12.Name = "skinGroupBox12";
             this.skinGroupBox12.RectBackColor = System.Drawing.Color.White;
             this.skinGroupBox12.RoundStyle = CCWin.SkinClass.RoundStyle.All;
-            this.skinGroupBox12.Size = new System.Drawing.Size(184, 183);
+            this.skinGroupBox12.Size = new System.Drawing.Size(206, 183);
             this.skinGroupBox12.TabIndex = 208;
             this.skinGroupBox12.TabStop = false;
             this.skinGroupBox12.Text = "自动编队";
@@ -1030,11 +964,10 @@
             // lab_aoto
             // 
             this.lab_aoto.AutoSize = true;
-            this.lab_aoto.Location = new System.Drawing.Point(10, 93);
+            this.lab_aoto.Location = new System.Drawing.Point(21, 93);
             this.lab_aoto.Name = "lab_aoto";
-            this.lab_aoto.Size = new System.Drawing.Size(104, 17);
+            this.lab_aoto.Size = new System.Drawing.Size(0, 17);
             this.lab_aoto.TabIndex = 206;
-            this.lab_aoto.Text = "使用默认编队计划";
             // 
             // btn_show
             // 
@@ -1047,12 +980,12 @@
             this.btn_show.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btn_show.ForeColor = System.Drawing.Color.White;
             this.btn_show.IsDrawGlass = false;
-            this.btn_show.Location = new System.Drawing.Point(8, 123);
+            this.btn_show.Location = new System.Drawing.Point(18, 123);
             this.btn_show.MouseBack = null;
             this.btn_show.MouseBaseColor = System.Drawing.Color.Gray;
             this.btn_show.Name = "btn_show";
             this.btn_show.NormlBack = null;
-            this.btn_show.Size = new System.Drawing.Size(170, 44);
+            this.btn_show.Size = new System.Drawing.Size(168, 44);
             this.btn_show.TabIndex = 208;
             this.btn_show.Text = "执行";
             this.btn_show.UseVisualStyleBackColor = false;
@@ -1069,12 +1002,12 @@
             this.btn_file.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btn_file.ForeColor = System.Drawing.Color.White;
             this.btn_file.IsDrawGlass = false;
-            this.btn_file.Location = new System.Drawing.Point(7, 36);
+            this.btn_file.Location = new System.Drawing.Point(18, 31);
             this.btn_file.MouseBack = null;
             this.btn_file.MouseBaseColor = System.Drawing.Color.Gray;
             this.btn_file.Name = "btn_file";
             this.btn_file.NormlBack = null;
-            this.btn_file.Size = new System.Drawing.Size(170, 44);
+            this.btn_file.Size = new System.Drawing.Size(168, 63);
             this.btn_file.TabIndex = 204;
             this.btn_file.Text = "导入编队计划";
             this.btn_file.UseVisualStyleBackColor = false;
@@ -1092,11 +1025,11 @@
             this.skinGroupBox4.Controls.Add(this.label7);
             this.skinGroupBox4.Controls.Add(this.label6);
             this.skinGroupBox4.ForeColor = System.Drawing.Color.Gray;
-            this.skinGroupBox4.Location = new System.Drawing.Point(198, 180);
+            this.skinGroupBox4.Location = new System.Drawing.Point(176, 180);
             this.skinGroupBox4.Name = "skinGroupBox4";
             this.skinGroupBox4.RectBackColor = System.Drawing.Color.White;
             this.skinGroupBox4.RoundStyle = CCWin.SkinClass.RoundStyle.All;
-            this.skinGroupBox4.Size = new System.Drawing.Size(184, 173);
+            this.skinGroupBox4.Size = new System.Drawing.Size(205, 173);
             this.skinGroupBox4.TabIndex = 207;
             this.skinGroupBox4.TabStop = false;
             this.skinGroupBox4.Text = "手动编队";
@@ -1107,7 +1040,7 @@
             // txt_alt
             // 
             this.txt_alt.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.txt_alt.Location = new System.Drawing.Point(116, 94);
+            this.txt_alt.Location = new System.Drawing.Point(130, 94);
             this.txt_alt.Name = "txt_alt";
             this.txt_alt.Size = new System.Drawing.Size(49, 23);
             this.txt_alt.TabIndex = 36;
@@ -1123,7 +1056,7 @@
             this.btn_FTH.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btn_FTH.ForeColor = System.Drawing.Color.White;
             this.btn_FTH.IsDrawGlass = false;
-            this.btn_FTH.Location = new System.Drawing.Point(7, 123);
+            this.btn_FTH.Location = new System.Drawing.Point(17, 123);
             this.btn_FTH.MouseBack = null;
             this.btn_FTH.MouseBaseColor = System.Drawing.Color.Gray;
             this.btn_FTH.Name = "btn_FTH";
@@ -1137,7 +1070,7 @@
             // txt_lon
             // 
             this.txt_lon.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.txt_lon.Location = new System.Drawing.Point(116, 61);
+            this.txt_lon.Location = new System.Drawing.Point(130, 61);
             this.txt_lon.Name = "txt_lon";
             this.txt_lon.Size = new System.Drawing.Size(49, 23);
             this.txt_lon.TabIndex = 37;
@@ -1146,7 +1079,7 @@
             // 
             this.label3.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 32);
+            this.label3.Location = new System.Drawing.Point(20, 32);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(104, 17);
             this.label3.TabIndex = 26;
@@ -1155,7 +1088,7 @@
             // txt_lat
             // 
             this.txt_lat.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.txt_lat.Location = new System.Drawing.Point(116, 29);
+            this.txt_lat.Location = new System.Drawing.Point(130, 29);
             this.txt_lat.Name = "txt_lat";
             this.txt_lat.Size = new System.Drawing.Size(49, 23);
             this.txt_lat.TabIndex = 38;
@@ -1164,7 +1097,7 @@
             // 
             this.label7.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(6, 63);
+            this.label7.Location = new System.Drawing.Point(20, 63);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(104, 17);
             this.label7.TabIndex = 27;
@@ -1174,7 +1107,7 @@
             // 
             this.label6.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(6, 92);
+            this.label6.Location = new System.Drawing.Point(20, 92);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(104, 17);
             this.label6.TabIndex = 28;
@@ -1191,11 +1124,11 @@
             this.skinGroupBox3.Controls.Add(this.btn_takeoff);
             this.skinGroupBox3.Controls.Add(this.btn_stabilize);
             this.skinGroupBox3.ForeColor = System.Drawing.Color.Gray;
-            this.skinGroupBox3.Location = new System.Drawing.Point(197, 3);
+            this.skinGroupBox3.Location = new System.Drawing.Point(175, 3);
             this.skinGroupBox3.Name = "skinGroupBox3";
             this.skinGroupBox3.RectBackColor = System.Drawing.Color.White;
             this.skinGroupBox3.RoundStyle = CCWin.SkinClass.RoundStyle.All;
-            this.skinGroupBox3.Size = new System.Drawing.Size(184, 173);
+            this.skinGroupBox3.Size = new System.Drawing.Size(206, 173);
             this.skinGroupBox3.TabIndex = 206;
             this.skinGroupBox3.TabStop = false;
             this.skinGroupBox3.Text = "模式选择";
@@ -1211,15 +1144,15 @@
             this.btn_disarm.ControlState = CCWin.SkinClass.ControlState.Normal;
             this.btn_disarm.DownBack = null;
             this.btn_disarm.DownBaseColor = System.Drawing.Color.Gray;
-            this.btn_disarm.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btn_disarm.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btn_disarm.ForeColor = System.Drawing.Color.White;
             this.btn_disarm.IsDrawGlass = false;
-            this.btn_disarm.Location = new System.Drawing.Point(97, 22);
+            this.btn_disarm.Location = new System.Drawing.Point(109, 22);
             this.btn_disarm.MouseBack = null;
             this.btn_disarm.MouseBaseColor = System.Drawing.Color.Gray;
             this.btn_disarm.Name = "btn_disarm";
             this.btn_disarm.NormlBack = null;
-            this.btn_disarm.Size = new System.Drawing.Size(82, 44);
+            this.btn_disarm.Size = new System.Drawing.Size(91, 44);
             this.btn_disarm.TabIndex = 203;
             this.btn_disarm.Text = "锁定";
             this.btn_disarm.UseVisualStyleBackColor = false;
@@ -1233,7 +1166,7 @@
             this.btn_arm.ControlState = CCWin.SkinClass.ControlState.Normal;
             this.btn_arm.DownBack = null;
             this.btn_arm.DownBaseColor = System.Drawing.Color.Gray;
-            this.btn_arm.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btn_arm.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btn_arm.ForeColor = System.Drawing.Color.White;
             this.btn_arm.IsDrawGlass = false;
             this.btn_arm.Location = new System.Drawing.Point(9, 22);
@@ -1241,7 +1174,7 @@
             this.btn_arm.MouseBaseColor = System.Drawing.Color.Gray;
             this.btn_arm.Name = "btn_arm";
             this.btn_arm.NormlBack = null;
-            this.btn_arm.Size = new System.Drawing.Size(82, 44);
+            this.btn_arm.Size = new System.Drawing.Size(94, 44);
             this.btn_arm.TabIndex = 202;
             this.btn_arm.Text = "解锁";
             this.btn_arm.UseVisualStyleBackColor = false;
@@ -1255,7 +1188,7 @@
             this.btn_rtl.ControlState = CCWin.SkinClass.ControlState.Normal;
             this.btn_rtl.DownBack = null;
             this.btn_rtl.DownBaseColor = System.Drawing.Color.Gray;
-            this.btn_rtl.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btn_rtl.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btn_rtl.ForeColor = System.Drawing.Color.White;
             this.btn_rtl.IsDrawGlass = false;
             this.btn_rtl.Location = new System.Drawing.Point(9, 122);
@@ -1263,7 +1196,7 @@
             this.btn_rtl.MouseBaseColor = System.Drawing.Color.Gray;
             this.btn_rtl.Name = "btn_rtl";
             this.btn_rtl.NormlBack = null;
-            this.btn_rtl.Size = new System.Drawing.Size(82, 44);
+            this.btn_rtl.Size = new System.Drawing.Size(94, 44);
             this.btn_rtl.TabIndex = 198;
             this.btn_rtl.Text = "返航";
             this.btn_rtl.UseVisualStyleBackColor = false;
@@ -1277,15 +1210,15 @@
             this.btn_guide.ControlState = CCWin.SkinClass.ControlState.Normal;
             this.btn_guide.DownBack = null;
             this.btn_guide.DownBaseColor = System.Drawing.Color.Gray;
-            this.btn_guide.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btn_guide.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btn_guide.ForeColor = System.Drawing.Color.White;
             this.btn_guide.IsDrawGlass = false;
-            this.btn_guide.Location = new System.Drawing.Point(96, 123);
+            this.btn_guide.Location = new System.Drawing.Point(109, 122);
             this.btn_guide.MouseBack = null;
             this.btn_guide.MouseBaseColor = System.Drawing.Color.Gray;
             this.btn_guide.Name = "btn_guide";
             this.btn_guide.NormlBack = null;
-            this.btn_guide.Size = new System.Drawing.Size(82, 44);
+            this.btn_guide.Size = new System.Drawing.Size(91, 44);
             this.btn_guide.TabIndex = 199;
             this.btn_guide.Text = "导航";
             this.btn_guide.UseVisualStyleBackColor = false;
@@ -1299,7 +1232,7 @@
             this.btn_takeoff.ControlState = CCWin.SkinClass.ControlState.Normal;
             this.btn_takeoff.DownBack = null;
             this.btn_takeoff.DownBaseColor = System.Drawing.Color.Gray;
-            this.btn_takeoff.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btn_takeoff.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btn_takeoff.ForeColor = System.Drawing.Color.White;
             this.btn_takeoff.IsDrawGlass = false;
             this.btn_takeoff.Location = new System.Drawing.Point(9, 72);
@@ -1307,7 +1240,7 @@
             this.btn_takeoff.MouseBaseColor = System.Drawing.Color.Gray;
             this.btn_takeoff.Name = "btn_takeoff";
             this.btn_takeoff.NormlBack = null;
-            this.btn_takeoff.Size = new System.Drawing.Size(82, 44);
+            this.btn_takeoff.Size = new System.Drawing.Size(94, 44);
             this.btn_takeoff.TabIndex = 200;
             this.btn_takeoff.Text = "起飞";
             this.btn_takeoff.UseVisualStyleBackColor = false;
@@ -1321,15 +1254,15 @@
             this.btn_stabilize.ControlState = CCWin.SkinClass.ControlState.Normal;
             this.btn_stabilize.DownBack = null;
             this.btn_stabilize.DownBaseColor = System.Drawing.Color.Gray;
-            this.btn_stabilize.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btn_stabilize.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btn_stabilize.ForeColor = System.Drawing.Color.White;
             this.btn_stabilize.IsDrawGlass = false;
-            this.btn_stabilize.Location = new System.Drawing.Point(97, 72);
+            this.btn_stabilize.Location = new System.Drawing.Point(109, 72);
             this.btn_stabilize.MouseBack = null;
             this.btn_stabilize.MouseBaseColor = System.Drawing.Color.Gray;
             this.btn_stabilize.Name = "btn_stabilize";
             this.btn_stabilize.NormlBack = null;
-            this.btn_stabilize.Size = new System.Drawing.Size(82, 44);
+            this.btn_stabilize.Size = new System.Drawing.Size(91, 44);
             this.btn_stabilize.TabIndex = 201;
             this.btn_stabilize.Text = "自稳";
             this.btn_stabilize.UseVisualStyleBackColor = false;
@@ -1341,11 +1274,11 @@
             this.skinGroupBox11.BorderColor = System.Drawing.Color.Gray;
             this.skinGroupBox11.Controls.Add(this.listBox2);
             this.skinGroupBox11.ForeColor = System.Drawing.Color.Gray;
-            this.skinGroupBox11.Location = new System.Drawing.Point(7, 261);
+            this.skinGroupBox11.Location = new System.Drawing.Point(7, 180);
             this.skinGroupBox11.Name = "skinGroupBox11";
             this.skinGroupBox11.RectBackColor = System.Drawing.Color.White;
             this.skinGroupBox11.RoundStyle = CCWin.SkinClass.RoundStyle.All;
-            this.skinGroupBox11.Size = new System.Drawing.Size(184, 281);
+            this.skinGroupBox11.Size = new System.Drawing.Size(168, 362);
             this.skinGroupBox11.TabIndex = 204;
             this.skinGroupBox11.TabStop = false;
             this.skinGroupBox11.Text = "选择飞行器";
@@ -1359,10 +1292,10 @@
             this.listBox2.FormattingEnabled = true;
             this.listBox2.ItemHeight = 17;
             this.listBox2.Items.AddRange(new object[] {
-            "所有飞行器"});
+            "ALL"});
             this.listBox2.Location = new System.Drawing.Point(6, 28);
             this.listBox2.Name = "listBox2";
-            this.listBox2.Size = new System.Drawing.Size(172, 242);
+            this.listBox2.Size = new System.Drawing.Size(157, 310);
             this.listBox2.TabIndex = 206;
             // 
             // skinGroupBox5
@@ -1371,15 +1304,13 @@
             this.skinGroupBox5.BorderColor = System.Drawing.Color.Gray;
             this.skinGroupBox5.Controls.Add(this.btn_cleargps);
             this.skinGroupBox5.Controls.Add(this.lab_statue);
-            this.skinGroupBox5.Controls.Add(this.label8);
-            this.skinGroupBox5.Controls.Add(this.label5);
             this.skinGroupBox5.Controls.Add(this.btn_link_plane);
             this.skinGroupBox5.ForeColor = System.Drawing.Color.Gray;
             this.skinGroupBox5.Location = new System.Drawing.Point(7, 3);
             this.skinGroupBox5.Name = "skinGroupBox5";
             this.skinGroupBox5.RectBackColor = System.Drawing.Color.White;
             this.skinGroupBox5.RoundStyle = CCWin.SkinClass.RoundStyle.All;
-            this.skinGroupBox5.Size = new System.Drawing.Size(184, 257);
+            this.skinGroupBox5.Size = new System.Drawing.Size(168, 173);
             this.skinGroupBox5.TabIndex = 205;
             this.skinGroupBox5.TabStop = false;
             this.skinGroupBox5.Text = "连接飞行器";
@@ -1398,12 +1329,12 @@
             this.btn_cleargps.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btn_cleargps.ForeColor = System.Drawing.Color.White;
             this.btn_cleargps.IsDrawGlass = false;
-            this.btn_cleargps.Location = new System.Drawing.Point(6, 204);
+            this.btn_cleargps.Location = new System.Drawing.Point(6, 115);
             this.btn_cleargps.MouseBack = null;
             this.btn_cleargps.MouseBaseColor = System.Drawing.Color.Gray;
             this.btn_cleargps.Name = "btn_cleargps";
             this.btn_cleargps.NormlBack = null;
-            this.btn_cleargps.Size = new System.Drawing.Size(170, 44);
+            this.btn_cleargps.Size = new System.Drawing.Size(157, 44);
             this.btn_cleargps.TabIndex = 205;
             this.btn_cleargps.Text = "清除GPS数据";
             this.btn_cleargps.UseVisualStyleBackColor = false;
@@ -1412,29 +1343,11 @@
             // lab_statue
             // 
             this.lab_statue.AutoSize = true;
-            this.lab_statue.Location = new System.Drawing.Point(8, 131);
+            this.lab_statue.Location = new System.Drawing.Point(8, 77);
             this.lab_statue.Name = "lab_statue";
             this.lab_statue.Size = new System.Drawing.Size(80, 17);
             this.lab_statue.TabIndex = 32;
             this.lab_statue.Text = "飞行器状态：";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(8, 26);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(164, 17);
-            this.label8.TabIndex = 204;
-            this.label8.Text = "请先点击刷新，确认所有节点";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(8, 54);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(116, 17);
-            this.label5.TabIndex = 31;
-            this.label5.Text = "入网然后点击连接。";
             // 
             // btn_link_plane
             // 
@@ -1447,12 +1360,12 @@
             this.btn_link_plane.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btn_link_plane.ForeColor = System.Drawing.Color.White;
             this.btn_link_plane.IsDrawGlass = false;
-            this.btn_link_plane.Location = new System.Drawing.Point(6, 74);
+            this.btn_link_plane.Location = new System.Drawing.Point(6, 22);
             this.btn_link_plane.MouseBack = null;
             this.btn_link_plane.MouseBaseColor = System.Drawing.Color.Gray;
             this.btn_link_plane.Name = "btn_link_plane";
             this.btn_link_plane.NormlBack = null;
-            this.btn_link_plane.Size = new System.Drawing.Size(170, 44);
+            this.btn_link_plane.Size = new System.Drawing.Size(157, 44);
             this.btn_link_plane.TabIndex = 203;
             this.btn_link_plane.Text = "连接";
             this.btn_link_plane.UseVisualStyleBackColor = false;
@@ -1461,14 +1374,12 @@
             // skinTabPage1
             // 
             this.skinTabPage1.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.skinTabPage1.Controls.Add(this.pictureBox5);
+            this.skinTabPage1.Controls.Add(this.pictureBox1);
             this.skinTabPage1.Controls.Add(this.btn_refresh_com);
             this.skinTabPage1.Controls.Add(this.btn_refresh);
             this.skinTabPage1.Controls.Add(this.btn_del);
             this.skinTabPage1.Controls.Add(this.btn_add);
             this.skinTabPage1.Controls.Add(this.treeview_online_node);
-            this.skinTabPage1.Controls.Add(this.pictureBox2);
-            this.skinTabPage1.Controls.Add(this.pictureBox1);
             this.skinTabPage1.Controls.Add(this.cbx_baud_select);
             this.skinTabPage1.Controls.Add(this.listBox1);
             this.skinTabPage1.Controls.Add(this.skinLabel12);
@@ -1490,17 +1401,14 @@
             this.skinTabPage1.TabItemImage = null;
             this.skinTabPage1.Text = "设备连接";
             // 
-            // pictureBox5
+            // pictureBox1
             // 
-            this.pictureBox5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox5.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox5.Image")));
-            this.pictureBox5.Location = new System.Drawing.Point(229, 428);
-            this.pictureBox5.Name = "pictureBox5";
-            this.pictureBox5.Size = new System.Drawing.Size(609, 125);
-            this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox5.TabIndex = 207;
-            this.pictureBox5.TabStop = false;
+            this.pictureBox1.Location = new System.Drawing.Point(224, 85);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(785, 465);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 207;
+            this.pictureBox1.TabStop = false;
             // 
             // btn_refresh_com
             // 
@@ -1589,30 +1497,6 @@
             this.treeview_online_node.Size = new System.Drawing.Size(220, 253);
             this.treeview_online_node.TabIndex = 202;
             // 
-            // pictureBox2
-            // 
-            this.pictureBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-            this.pictureBox2.Location = new System.Drawing.Point(227, 81);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(783, 347);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox2.TabIndex = 201;
-            this.pictureBox2.TabStop = false;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(834, 428);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(175, 125);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 200;
-            this.pictureBox1.TabStop = false;
-            // 
             // cbx_baud_select
             // 
             this.cbx_baud_select.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
@@ -1684,7 +1568,7 @@
             this.lable_cnt_node.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lable_cnt_node.Font = new System.Drawing.Font("微软雅黑", 9F);
             this.lable_cnt_node.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(182)))), ((int)(((byte)(0)))));
-            this.lable_cnt_node.Location = new System.Drawing.Point(220, 6);
+            this.lable_cnt_node.Location = new System.Drawing.Point(348, 7);
             this.lable_cnt_node.Name = "lable_cnt_node";
             this.lable_cnt_node.Size = new System.Drawing.Size(25, 17);
             this.lable_cnt_node.TabIndex = 182;
@@ -1699,7 +1583,7 @@
             this.skinLabel10.BorderColor = System.Drawing.Color.White;
             this.skinLabel10.Font = new System.Drawing.Font("微软雅黑", 9F);
             this.skinLabel10.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(35)))), ((int)(((byte)(35)))));
-            this.skinLabel10.Location = new System.Drawing.Point(132, 7);
+            this.skinLabel10.Location = new System.Drawing.Point(229, 7);
             this.skinLabel10.Name = "skinLabel10";
             this.skinLabel10.Size = new System.Drawing.Size(92, 17);
             this.skinLabel10.TabIndex = 181;
@@ -1715,7 +1599,7 @@
             this.lable_gateway_address.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lable_gateway_address.Font = new System.Drawing.Font("微软雅黑", 9F);
             this.lable_gateway_address.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(182)))), ((int)(((byte)(0)))));
-            this.lable_gateway_address.Location = new System.Drawing.Point(68, 7);
+            this.lable_gateway_address.Location = new System.Drawing.Point(122, 7);
             this.lable_gateway_address.Name = "lable_gateway_address";
             this.lable_gateway_address.Size = new System.Drawing.Size(55, 17);
             this.lable_gateway_address.TabIndex = 8;
@@ -1762,7 +1646,7 @@
             this.ProgressBar.Font = new System.Drawing.Font("微软雅黑", 6F, System.Drawing.FontStyle.Bold);
             this.ProgressBar.ForeColor = System.Drawing.Color.Black;
             this.ProgressBar.InnerBorder = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
-            this.ProgressBar.Location = new System.Drawing.Point(512, 58);
+            this.ProgressBar.Location = new System.Drawing.Point(686, 58);
             this.ProgressBar.Name = "ProgressBar";
             this.ProgressBar.RadiusStyle = CCWin.SkinClass.RoundStyle.All;
             this.ProgressBar.Size = new System.Drawing.Size(152, 14);
@@ -1809,15 +1693,15 @@
             this.btn_open_close.DrawType = CCWin.SkinControl.DrawStyle.Img;
             this.btn_open_close.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.btn_open_close.ForeColor = System.Drawing.Color.White;
-            this.btn_open_close.Location = new System.Drawing.Point(844, 0);
+            this.btn_open_close.Location = new System.Drawing.Point(843, 1);
             this.btn_open_close.MouseBack = ((System.Drawing.Image)(resources.GetObject("btn_open_close.MouseBack")));
             this.btn_open_close.Name = "btn_open_close";
             this.btn_open_close.NormlBack = ((System.Drawing.Image)(resources.GetObject("btn_open_close.NormlBack")));
             this.btn_open_close.Palace = true;
             this.btn_open_close.Radius = 4;
-            this.btn_open_close.Size = new System.Drawing.Size(168, 76);
+            this.btn_open_close.Size = new System.Drawing.Size(165, 76);
             this.btn_open_close.TabIndex = 184;
-            this.btn_open_close.Text = "打开串口";
+            this.btn_open_close.Text = "OPEN";
             this.btn_open_close.UseVisualStyleBackColor = false;
             this.btn_open_close.Click += new System.EventHandler(this.btn_open_close_Click);
             // 
@@ -1865,38 +1749,12 @@
             this.skinTabControl1.PageImagePosition = CCWin.SkinControl.SkinTabControl.ePageImagePosition.Top;
             this.skinTabControl1.PageNorml = null;
             this.skinTabControl1.PageNormlTxtColor = System.Drawing.Color.White;
-            this.skinTabControl1.SelectedIndex = 1;
+            this.skinTabControl1.SelectedIndex = 0;
             this.skinTabControl1.Size = new System.Drawing.Size(1012, 664);
             this.skinTabControl1.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.skinTabControl1.TabIndex = 0;
             // 
-            // gMapControl1
-            // 
-            this.gMapControl1.Bearing = 0F;
-            this.gMapControl1.CanDragMap = true;
-            this.gMapControl1.EmptyTileColor = System.Drawing.Color.Navy;
-            this.gMapControl1.GrayScaleMode = false;
-            this.gMapControl1.HelperLineOption = GMap.NET.WindowsForms.HelperLineOptions.DontShow;
-            this.gMapControl1.LevelsKeepInMemmory = 5;
-            this.gMapControl1.Location = new System.Drawing.Point(384, 3);
-            this.gMapControl1.MarkersEnabled = true;
-            this.gMapControl1.MaxZoom = 2;
-            this.gMapControl1.MinZoom = 2;
-            this.gMapControl1.MouseWheelZoomType = GMap.NET.MouseWheelZoomType.MousePositionAndCenter;
-            this.gMapControl1.Name = "gMapControl1";
-            this.gMapControl1.NegativeMode = false;
-            this.gMapControl1.PolygonsEnabled = true;
-            this.gMapControl1.RetryLoadTile = 0;
-            this.gMapControl1.RoutesEnabled = true;
-            this.gMapControl1.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
-            this.gMapControl1.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
-            this.gMapControl1.ShowTileGridLines = false;
-            this.gMapControl1.Size = new System.Drawing.Size(620, 466);
-            this.gMapControl1.TabIndex = 209;
-            this.gMapControl1.Zoom = 0D;
-            this.gMapControl1.Load += new System.EventHandler(this.gMapControl1_Load);
-            // 
-            // EasySwarm
+            // Easyswarm
             // 
             this.AllowDrop = true;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1907,7 +1765,7 @@
             this.Controls.Add(this.skinTabControl1);
             this.EffectBack = System.Drawing.Color.Black;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "EasySwarm";
+            this.Name = "Easyswarm";
             this.ShadowRectangle = new System.Drawing.Rectangle(20, 20, 20, 20);
             this.ShowBorder = false;
             this.ShowDrawIcon = false;
@@ -1930,9 +1788,6 @@
             this.skinGroupBox7.PerformLayout();
             this.skinGroupBox6.ResumeLayout(false);
             this.skinGroupBox6.PerformLayout();
-            this.skinTabPage8.ResumeLayout(false);
-            this.skinGroupBox10.ResumeLayout(false);
-            this.skinGroupBox10.PerformLayout();
             this.skinTabPage3.ResumeLayout(false);
             this.skinGroupBox1.ResumeLayout(false);
             this.skinGroupBox2.ResumeLayout(false);
@@ -1948,8 +1803,6 @@
             this.skinGroupBox5.PerformLayout();
             this.skinTabPage1.ResumeLayout(false);
             this.skinTabPage1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.skinPanel2.ResumeLayout(false);
             this.skinPanel2.PerformLayout();
@@ -1990,11 +1843,6 @@
         private System.Windows.Forms.TextBox textBox1;
         private CCWin.SkinControl.SkinButton skinButton25;
         private System.Windows.Forms.Label label2;
-        private CCWin.SkinControl.SkinTabPage skinTabPage8;
-        private CCWin.SkinControl.SkinGroupBox skinGroupBox10;
-        private System.Windows.Forms.TextBox textBox3;
-        private CCWin.SkinControl.SkinButton skinButton12;
-        private System.Windows.Forms.Label label14;
         private CCWin.SkinControl.SkinTabPage skinTabPage3;
         private CCWin.SkinControl.SkinGroupBox skinGroupBox1;
         private CCWin.SkinControl.SkinButton btn_all_stop;
@@ -2030,18 +1878,13 @@
         private System.Windows.Forms.ListBox listBox2;
         private CCWin.SkinControl.SkinGroupBox skinGroupBox5;
         private System.Windows.Forms.Label lab_statue;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label5;
         private CCWin.SkinControl.SkinButton btn_link_plane;
         private CCWin.SkinControl.SkinTabPage skinTabPage1;
-        private System.Windows.Forms.PictureBox pictureBox5;
         private CCWin.SkinControl.SkinButton btn_refresh_com;
         private CCWin.SkinControl.SkinButton btn_refresh;
         private CCWin.SkinControl.SkinButton btn_del;
         private CCWin.SkinControl.SkinButton btn_add;
         private System.Windows.Forms.TreeView treeview_online_node;
-        private System.Windows.Forms.PictureBox pictureBox2;
-        private System.Windows.Forms.PictureBox pictureBox1;
         private CCWin.SkinControl.SkinComboBox cbx_baud_select;
         private System.Windows.Forms.ListBox listBox1;
         private CCWin.SkinControl.SkinLabel skinLabel12;
@@ -2064,6 +1907,7 @@
         private CCWin.SkinControl.SkinGroupBox skinGroupBox12;
         private System.Windows.Forms.Label lab_aoto;
         private GMap.NET.WindowsForms.GMapControl gMapControl1;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
 
