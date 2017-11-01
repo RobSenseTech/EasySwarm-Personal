@@ -20,7 +20,6 @@ namespace EasySwarm
 
         private void StartForm_Load(object sender, EventArgs e)
         {
-
         }
         /////////////////////
         //Read the default language 

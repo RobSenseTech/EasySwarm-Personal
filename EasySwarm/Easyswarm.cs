@@ -31,13 +31,22 @@ namespace EasySwarm
         int Timer_Cnt = 0;
         int Timer_Cnt_B = 0;
         int Timer_Cnt_C = 0;
-        int Line_Cnt = 0;
         List<byte> re_buf = new List<byte>(200); //Receive buffer
         struct Online_node
         {
             public byte[] node;
         }
         List<Online_node> online_node = new List<Online_node>(100);
+        struct Node_position
+        {
+            public int mac_1;
+            public int mac_2;
+            public int lat;
+            public int lon;
+            public int alt;
+        }
+        int drones_number;
+        List<Node_position> node_position = new List<Node_position>(100);
         public int[,] position = new int[100, 25];
         float base_lat;
         float base_lon;
@@ -582,27 +591,28 @@ namespace EasySwarm
 
         private void btn_show_Click(object sender, EventArgs e)
         {
+            node_position.Clear();
             StreamReader sr = new StreamReader(path, Encoding.Default);
             String line;
-            Line_Cnt = 0;
             while ((line = sr.ReadLine()) != null)
             {
-                string[] sArray = line.Split(',');
-                for (int i = 0; i < sArray.Length - 1; i++)
+                string[] sArray = line.Split(new char[3] { '(', ')', ',' });
+                for (int i = 0; i < sArray.Length / 4; i++)
                 {
-                    position[Line_Cnt, i] = int.Parse(sArray[i].Trim());
+                    Node_position temp;
+                    int result = int.Parse(sArray[i*4].Trim(), System.Globalization.NumberStyles.AllowHexSpecifier);
+                    temp.mac_1 = (result & 0x0000FFFF) >> 8;
+                    temp.mac_2 = result & 0x000000FF;
+                    temp.lat = int.Parse(sArray[i * 4 + 1]);
+                    temp.lon = int.Parse(sArray[i * 4 + 2]);
+                    temp.alt = int.Parse(sArray[i * 4 + 3]);
+                    Console.WriteLine("{0} {1} {2} {3} {4}", temp.mac_1, temp.mac_2, temp.lat, temp.lon, temp.alt);
+                    node_position.Add(temp);
+                    drones_number = sArray.Length / 4;
                 }
-                Line_Cnt++;
             }
-            for (int i = 0; i < 5; i++)
-            {
-                for (int j = 0; j < 25; j++)
-                {
-                    Console.Write("{0} ", position[i, j]);
-                }
-                Console.WriteLine();
-            }
-            cTimer.Interval = 1000;
+            Console.WriteLine(node_position.Count);
+            cTimer.Interval = 3000;
             cTimer.Enabled = true;
         }
 
@@ -703,18 +713,11 @@ namespace EasySwarm
 
         private void bOnTimedEvent(object source, ElapsedEventArgs e)
         {
-            int i = Timer_Cnt_B++;
-            show_func(position[i, 0], position[i, 1], position[i, 2], position[i, 3], position[i, 4],
-                            position[i, 5], position[i, 6], position[i, 7], position[i, 8], position[i, 9],
-                            position[i, 10], position[i, 11], position[i, 12], position[i, 13], position[i, 14],
-                            position[i, 15], position[i, 16], position[i, 17], position[i, 18], position[i, 19],
-                            position[i, 20], position[i, 21], position[i, 22], position[i, 23], position[i, 24]);
-            for (int j = 0; j < 25; j++)
-            {
-                Console.Write("{0} ", position[i, j]);
-            }
-            Console.WriteLine();
-            if (Timer_Cnt_B == Line_Cnt - 1)
+            Node_position[] data = new Node_position[drones_number];
+            node_position.CopyTo((Timer_Cnt_B++) * drones_number, data, 0, data.Length);
+            show_func(drones_number,data);
+           // Console.WriteLine(drones_number * 4);
+            if (Timer_Cnt_B == node_position.Count/drones_number)
             {
                 Console.WriteLine("RTL");
                 bTimer.Enabled = false;
@@ -729,33 +732,17 @@ namespace EasySwarm
             }
         }
 
-        private void show_func(int mac_a1, int mac_a2, int mac_b1, int mac_b2, int mac_c1, int mac_c2, int mac_d1, int mac_d2, int mac_e1, int mac_e2, int lat_a, int lon_a, int lat_b, int lon_b, int lat_c, int lon_c, int lat_d, int lon_d, int lat_e, int lon_e, int alt_a, int alt_b, int alt_c, int alt_d, int alt_e)
+        private void show_func(int num, Node_position[] data)
         {
-            byte[] node_mac = new byte[2];
-            node_mac[0] = Convert.ToByte(mac_a1);
-            node_mac[1] = Convert.ToByte(mac_a2);
-            byte[] get_data = _loraframe.unicast(node_mac, _mavLink.Fly2here(alt_a, base_lat + (float)(lat_a * 0.00006), base_lon + (float)(lon_a * 0.00006)));
-            _serialPort.Write(get_data, 0, get_data.Length);        //Send data.
-
-            node_mac[0] = Convert.ToByte(mac_b1);
-            node_mac[1] = Convert.ToByte(mac_b2);
-            get_data = _loraframe.unicast(node_mac, _mavLink.Fly2here(alt_b, base_lat + (float)(lat_b * 0.00006), base_lon + (float)(lon_b * 0.00006)));
-            _serialPort.Write(get_data, 0, get_data.Length);        //Send data.
-
-            node_mac[0] = Convert.ToByte(mac_c1);
-            node_mac[1] = Convert.ToByte(mac_c2);
-            get_data = _loraframe.unicast(node_mac, _mavLink.Fly2here(alt_c, base_lat + (float)(lat_c * 0.00006), base_lon + (float)(lon_c * 0.00006)));
-            _serialPort.Write(get_data, 0, get_data.Length);        //Send data.
-
-            node_mac[0] = Convert.ToByte(mac_d1);
-            node_mac[1] = Convert.ToByte(mac_d2);
-            get_data = _loraframe.unicast(node_mac, _mavLink.Fly2here(alt_d, base_lat + (float)(lat_d * 0.00006), base_lon + (float)(lon_d * 0.00006)));
-            _serialPort.Write(get_data, 0, get_data.Length);        //Send data.
-
-            node_mac[0] = Convert.ToByte(mac_e1);
-            node_mac[1] = Convert.ToByte(mac_e2);
-            get_data = _loraframe.unicast(node_mac, _mavLink.Fly2here(alt_e, base_lat + (float)(lat_e * 0.00006), base_lon + (float)(lon_e * 0.00006)));
-            _serialPort.Write(get_data, 0, get_data.Length);        //Send data.
+            for (int i = 0; i < num; i++)
+            {
+                Console.WriteLine("{0} {1} {2} {3} {4}:{5}", data[i].mac_1, data[i].mac_2, data[i].lat, data[i].lon, data[i].alt,i);
+                byte[] node_mac = new byte[2];
+                node_mac[0] = Convert.ToByte(data[i].mac_1);
+                node_mac[1] = Convert.ToByte(data[i].mac_2);
+                byte[] get_data = _loraframe.unicast(node_mac, _mavLink.Fly2here(data[i].alt, base_lat + (float)(data[i].lat * 0.00006), base_lon + (float)(data[i].lon * 0.00006)));
+                _serialPort.Write(get_data, 0, get_data.Length);        //Send data.
+            }
         }
 
         private void btn_cleargps_Click(object sender, EventArgs e)
@@ -855,6 +842,7 @@ namespace EasySwarm
             try
             {
                 byte[] cmd_go = new byte[8] { 0xff, 0x01, 0x05, 0x00, 0x00, 0x00, 0x00, 0xff };
+                cmd_go[2] = Convert.ToByte(cbox_speed.Text);    //Get speed 
                 byte[] get_data = _loraframe.broadcast(cmd_go);
                 _serialPort.Write(get_data, 0, get_data.Length);        //Send data.
             }
@@ -869,7 +857,8 @@ namespace EasySwarm
         {
             try
             {
-                byte[] cmd_back = new byte[8] { 0xff, 0x02, 0x05, 0x00, 0x00, 0x00, 0x00, 0xff };
+                byte[] cmd_back = new byte[] { 0xff, 0x02, 0x05, 0x00, 0x00, 0x00, 0x00, 0xff };
+                cmd_back[2] = Convert.ToByte(cbox_speed.Text);    //Get speed 
                 byte[] get_data = _loraframe.broadcast(cmd_back);
                 _serialPort.Write(get_data, 0, get_data.Length);        //Send data.
             }
