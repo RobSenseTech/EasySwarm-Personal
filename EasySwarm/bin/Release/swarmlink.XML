@@ -1,0 +1,109 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>swarmlink</name>
+    </assembly>
+    <members>
+        <member name="F:swarmlink.loraframe.Frame_69">
+            ///////////////////////////Class Properties////////////////////////////////////
+        </member>
+        <member name="M:swarmlink.loraframe.Recive_Check(System.Byte[])">
+            //////////////////////////Class Methods//////////////////////////////////////
+        </member>
+        <member name="M:swarmlink.loraframe.add_node(System.Byte,System.Byte,System.Byte,System.Byte)">
+            <summary>
+            e.g.Add the node with the MAC address:FDFD1110
+            </summary>
+            <param name="num1">0xFD</param>
+            <param name="num2">0xFD</param>
+            <param name="num3">0x11</param>
+            <param name="num4">0x10</param>
+            <returns>lora frame</returns>
+        </member>
+        <member name="M:swarmlink.loraframe.del_node(System.Byte,System.Byte,System.Byte,System.Byte)">
+            <summary>
+            e.g.Del the node with the MAC adress:FDFD1110
+            </summary>
+            <param name="num1">0xFD</param>
+            <param name="num2">0xFD</param>
+            <param name="num3">0x11</param>
+            <param name="num4">0x10</param>
+            <returns>lora frame</returns>
+        </member>
+        <member name="M:swarmlink.loraframe.broadcast(System.Byte[])">
+            <summary>
+            Sent data to all network access nodes.
+            </summary>
+            <param name="data">payload</param>
+            <returns>lora frame</returns>
+        </member>
+        <member name="M:swarmlink.loraframe.unicast(System.Byte[],System.Byte[])">
+            <summary>
+            Send data to the specified node.
+            </summary>
+            <param name="mac_address">Node MAC address</param>
+            <param name="data">payload</param>
+            <returns>lora frame</returns>
+        </member>
+        <member name="M:swarmlink.loraframe.unicast_cmd(System.Byte[],System.Byte[])">
+            <summary>
+            Send instruction to the specified node.
+            </summary>
+            <param name="mac_address">Node MAC address</param>
+            <param name="data">instruction</param>
+            <returns>lora frame</returns>
+        </member>
+        <member name="M:swarmlink.loraframe.multicast(System.Byte[],System.Byte[])">
+            <summary>
+            e.g.Send data to 3 nodes(FDFD0001 FDFD0002 FDFD0003)
+            </summary>
+            <param name="list">0x00,0x01,0x00,0x02,0x00,0x03</param>
+            <param name="data">payload</param>
+            <returns>lora frame</returns>
+        </member>
+        <member name="M:swarmlink.loraframe.response(System.Byte[],System.Byte[])">
+            <summary>
+            Unicast response frame from the gateway to the node, the node receives date from gateway and 
+            return 4bytes + payload(the data from gateway) to gateway.
+            </summary>
+            <param name="mac_address">Node MAC adress</param>
+            <param name="data">payload</param>
+            <returns>lora frame</returns>
+        </member>
+        <member name="M:swarmlink.loraframe.set_node_mac(System.Byte[],System.Byte[])">
+            <summary>
+            e.g.Change the node mac address from FDFD0003 to FDFD0001
+            </summary>
+            <param name="old_mac">0x00,0x03(2bytes)</param>
+            <param name="new_mac">0xFD,0xFD,0x00,0x01(4bytes)</param>
+            <returns>lora frame</returns>
+        </member>
+        <member name="M:swarmlink.loraframe.decode(System.Byte[])">
+            <summary>
+            Combination the receive data into a lora frame and return them.When receiving frame complete 
+            returns this frame,other cases retrun null.
+            </summary>
+            <param name="buf">Serial received data</param>
+            <returns>lora frame or null</returns>
+        </member>
+        <member name="M:swarmlink.loraframe.analyze(System.Collections.Generic.List{System.Byte})">
+            <summary>
+            Parsing the lora protocol.
+            </summary>
+            <param name="data">The lora protocol frame received from the node.</param>
+            <returns>node mac(2bytes) + payload length(1byte) +payload(n bytes)</returns>
+        </member>
+        <member name="M:swarmlink.loraframe.cmd_refresh_ap">
+            <summary>
+            Refresh join nodes list.
+            </summary>
+            <returns>refresh instruction</returns>
+        </member>
+        <member name="M:swarmlink.loraframe.determine_nodes">
+            <summary>
+            Check the node online statues.
+            </summary>
+            <returns>Determin nodes instruction</returns>
+        </member>
+    </members>
+</doc>

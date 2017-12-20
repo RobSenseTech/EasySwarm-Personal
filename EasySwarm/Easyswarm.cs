@@ -11,16 +11,12 @@ using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
 using GMap.NET.MapProviders;
 using GMap.NET;
-using System.Xml;
-using System.Data;
-using System.Resources;
 
 namespace EasySwarm
 {
     public partial class Easyswarm : CCSkinMain
     {
         SerialPort _serialPort;
-        IEversion _ieVersion;
         Mavlink _mavLink;
         swarmlink.loraframe _loraframe = new swarmlink.loraframe();
         TreeNode tn;
@@ -31,13 +27,22 @@ namespace EasySwarm
         int Timer_Cnt = 0;
         int Timer_Cnt_B = 0;
         int Timer_Cnt_C = 0;
-        int Line_Cnt = 0;
         List<byte> re_buf = new List<byte>(200); //Receive buffer
         struct Online_node
         {
             public byte[] node;
         }
         List<Online_node> online_node = new List<Online_node>(100);
+        struct Node_position
+        {
+            public int mac_1;
+            public int mac_2;
+            public int lat;
+            public int lon;
+            public int alt;
+        }
+        int drones_number;
+        List<Node_position> node_position = new List<Node_position>();
         public int[,] position = new int[100, 25];
         float base_lat;
         float base_lon;
@@ -57,6 +62,7 @@ namespace EasySwarm
             _serialPort.DataBits = 8;                    //Data length 8
             _serialPort.StopBits = StopBits.One;   //Stop bits 1
             _serialPort.DataReceived += new SerialDataReceivedEventHandler(sp_DataReceived);
+            cbx_com_select.Text = "COM";
             cbx_baud_select.Items.Add("115200");
             cbx_baud_select.Items.Add("57600");
             cbx_baud_select.Items.Add("19200");
@@ -76,10 +82,6 @@ namespace EasySwarm
             {
                 Console.WriteLine(exp);
             }
-            //webBrowser init.
-            _ieVersion = new IEversion();
-            _ieVersion.BrowserEmulationSet();
-            //webBrowser1.Navigate("http://www.tanjingdeng.com/new_test/");
             //ProgressBar init.
             ProgressBar.Minimum = 0;
             ProgressBar.Maximum = 100;
@@ -582,27 +584,29 @@ namespace EasySwarm
 
         private void btn_show_Click(object sender, EventArgs e)
         {
+            node_position.Clear();
             StreamReader sr = new StreamReader(path, Encoding.Default);
             String line;
-            Line_Cnt = 0;
             while ((line = sr.ReadLine()) != null)
             {
-                string[] sArray = line.Split(',');
-                for (int i = 0; i < sArray.Length - 1; i++)
+                string[] sArray = line.Split(new char[3] { '(', ')', ',' });
+                for (int i = 0; i < sArray.Length / 4; i++)
                 {
-                    position[Line_Cnt, i] = int.Parse(sArray[i].Trim());
+                    Node_position temp;
+                    int result = int.Parse(sArray[i*4].Trim(), System.Globalization.NumberStyles.AllowHexSpecifier);
+                    temp.mac_1 = (result & 0x0000FFFF) >> 8;
+                    temp.mac_2 = result & 0x000000FF;
+                    temp.lat = int.Parse(sArray[i * 4 + 1]);
+                    temp.lon = int.Parse(sArray[i * 4 + 2]);
+                    temp.alt = int.Parse(sArray[i * 4 + 3]);
+                    //Console.WriteLine("Read line:{0} {1} {2} {3} {4}", temp.mac_1, temp.mac_2, temp.lat, temp.lon, temp.alt);
+                    node_position.Add(temp);
+                    drones_number = sArray.Length / 4;
+                    //Console.WriteLine(drones_number);
                 }
-                Line_Cnt++;
             }
-            for (int i = 0; i < 5; i++)
-            {
-                for (int j = 0; j < 25; j++)
-                {
-                    Console.Write("{0} ", position[i, j]);
-                }
-                Console.WriteLine();
-            }
-            cTimer.Interval = 1000;
+            Console.WriteLine(node_position.Count);
+            cTimer.Interval = 3000;
             cTimer.Enabled = true;
         }
 
@@ -628,50 +632,58 @@ namespace EasySwarm
                 case 7: Console.WriteLine("delay"); break;
                 case 8:
                     Console.WriteLine("stabilize");
-                    for (int i = 0; i < _mavLink.node_gps.Count; i++)
-                    {
-                        byte[] node_mac = new byte[2];
-                        node_mac[0] = _mavLink.node_gps[i].node[0];
-                        node_mac[1] = _mavLink.node_gps[i].node[1];
-                        byte[] get_data2 = _loraframe.unicast(node_mac, _mavLink.stabilize);
-                        _serialPort.Write(get_data2, 0, get_data2.Length);        //Send data.
-                    }
+                    //for (int i = 0; i < _mavLink.node_gps.Count; i++)
+                    //{
+                    //    byte[] node_mac = new byte[2];
+                    //    node_mac[0] = _mavLink.node_gps[i].node[0];
+                    //    node_mac[1] = _mavLink.node_gps[i].node[1];
+                    //    byte[] get_data2 = _loraframe.unicast(node_mac, _mavLink.stabilize);
+                    //    _serialPort.Write(get_data2, 0, get_data2.Length);        //Send data.
+                    //}
+                    byte[] get_data2 = _loraframe.broadcast( _mavLink.stabilize);
+                    _serialPort.Write(get_data2, 0, get_data2.Length);        //Send data.
                     break;
 
                 case 9:
                     Console.WriteLine("arm");
-                    for (int i = 0; i < _mavLink.node_gps.Count; i++)
-                    {
-                        byte[] node_mac = new byte[2];
-                        node_mac[0] = _mavLink.node_gps[i].node[0];
-                        node_mac[1] = _mavLink.node_gps[i].node[1];
-                        byte[] get_data3 = _loraframe.unicast(node_mac, _mavLink.Arm);
-                        _serialPort.Write(get_data3, 0, get_data3.Length);        //Send data.
-                    }
+                    //for (int i = 0; i < _mavLink.node_gps.Count; i++)
+                    //{
+                    //    byte[] node_mac = new byte[2];
+                    //    node_mac[0] = _mavLink.node_gps[i].node[0];
+                    //    node_mac[1] = _mavLink.node_gps[i].node[1];
+                    //    byte[] get_data3 = _loraframe.unicast(node_mac, _mavLink.Arm);
+                    //    _serialPort.Write(get_data3, 0, get_data3.Length);        //Send data.
+                    //}
+                    byte[] get_data3 = _loraframe.broadcast(_mavLink.Arm);
+                    _serialPort.Write(get_data3, 0, get_data3.Length);        //Send data.
                     break;
 
                 case 10:
                     Console.WriteLine("guide");
-                    for (int i = 0; i < _mavLink.node_gps.Count; i++)
-                    {
-                        byte[] node_mac = new byte[2];
-                        node_mac[0] = _mavLink.node_gps[i].node[0];
-                        node_mac[1] = _mavLink.node_gps[i].node[1];
-                        byte[] get_data4 = _loraframe.unicast(node_mac, _mavLink.guide);
-                        _serialPort.Write(get_data4, 0, get_data4.Length);        //Send data.
-                    }
+                    //for (int i = 0; i < _mavLink.node_gps.Count; i++)
+                    //{
+                    //    byte[] node_mac = new byte[2];
+                    //    node_mac[0] = _mavLink.node_gps[i].node[0];
+                    //    node_mac[1] = _mavLink.node_gps[i].node[1];
+                    //    byte[] get_data4 = _loraframe.unicast(node_mac, _mavLink.guide);
+                    //    _serialPort.Write(get_data4, 0, get_data4.Length);        //Send data.
+                    //}
+                    byte[] get_data4 = _loraframe.broadcast(_mavLink.guide);
+                    _serialPort.Write(get_data4, 0, get_data4.Length);        //Send data.
                     break;
                 case 11:
                     Console.WriteLine("takeoff");
                     float alt = Convert.ToInt32(txt_alt.Text);
-                    for (int i = 0; i < _mavLink.node_gps.Count; i++)
-                    {
-                        byte[] node_mac = new byte[2];
-                        node_mac[0] = _mavLink.node_gps[i].node[0];
-                        node_mac[1] = _mavLink.node_gps[i].node[1];
-                        byte[] get_data5 = _loraframe.unicast(node_mac, _mavLink.Takeoff(Convert.ToInt32(txt_alt.Text)));
-                        _serialPort.Write(get_data5, 0, get_data5.Length);        //Send data.
-                    }
+                    //for (int i = 0; i < _mavLink.node_gps.Count; i++)
+                    //{
+                    //    byte[] node_mac = new byte[2];
+                    //    node_mac[0] = _mavLink.node_gps[i].node[0];
+                    //    node_mac[1] = _mavLink.node_gps[i].node[1];
+                    //    byte[] get_data5 = _loraframe.unicast(node_mac, _mavLink.Takeoff(Convert.ToInt32(txt_alt.Text)));
+                    //    _serialPort.Write(get_data5, 0, get_data5.Length);        //Send data.
+                    //}
+                    byte[] get_data5 = _loraframe.broadcast(_mavLink.Takeoff(Convert.ToInt32(txt_alt.Text)));
+                    _serialPort.Write(get_data5, 0, get_data5.Length);        //Send data.
                     break;
 
                 case 12: Console.WriteLine("delay"); break;
@@ -684,18 +696,18 @@ namespace EasySwarm
             if (Timer_Cnt_C == 16)
             {
                 cTimer.Enabled = false;
-                bTimer.Interval = 1000;// 指令间隔时间16000ms = 16s
+                bTimer.Interval = 16000;// 指令间隔时间10000ms = 10s
                 bTimer.Enabled = true;
-                base_lat = _mavLink.node_gps[0].lat;
-                base_lon = _mavLink.node_gps[0].lon;
-                //for (int i = 0; i < _mavLink.node_gps.Count; i++)
-                //{
-                //    if (_mavLink.node_gps[i].node[1] == 0x03)
-                //    {
-                //        base_lat = _mavLink.node_gps[i].lat;
-                //        base_lon = _mavLink.node_gps[i].lon;
-                //    }
-                //}
+                //base_lat = _mavLink.node_gps[0].lat;
+                //base_lon = _mavLink.node_gps[0].lon;
+                for (int i = 0; i < _mavLink.node_gps.Count; i++)
+                {
+                    if (_mavLink.node_gps[i].node[1] == 0x03)
+                    {
+                        base_lat = _mavLink.node_gps[i].lat;
+                        base_lon = _mavLink.node_gps[i].lon;
+                    }
+                }
                 Console.WriteLine(base_lat);
                 Console.WriteLine(base_lon);
             }
@@ -703,59 +715,38 @@ namespace EasySwarm
 
         private void bOnTimedEvent(object source, ElapsedEventArgs e)
         {
-            int i = Timer_Cnt_B++;
-            show_func(position[i, 0], position[i, 1], position[i, 2], position[i, 3], position[i, 4],
-                            position[i, 5], position[i, 6], position[i, 7], position[i, 8], position[i, 9],
-                            position[i, 10], position[i, 11], position[i, 12], position[i, 13], position[i, 14],
-                            position[i, 15], position[i, 16], position[i, 17], position[i, 18], position[i, 19],
-                            position[i, 20], position[i, 21], position[i, 22], position[i, 23], position[i, 24]);
-            for (int j = 0; j < 25; j++)
-            {
-                Console.Write("{0} ", position[i, j]);
-            }
-            Console.WriteLine();
-            if (Timer_Cnt_B == Line_Cnt - 1)
+            Node_position[] data = new Node_position[drones_number];
+            node_position.CopyTo((Timer_Cnt_B++) * drones_number, data, 0, data.Length);
+            show_func(drones_number,data);
+           // Console.WriteLine(drones_number * 4);
+            if (Timer_Cnt_B == node_position.Count/drones_number)
             {
                 Console.WriteLine("RTL");
                 bTimer.Enabled = false;
-                for (int j = 0; j < _mavLink.node_gps.Count; j++)
-                {
-                    byte[] node_mac = new byte[2];
-                    node_mac[0] = _mavLink.node_gps[j].node[0];
-                    node_mac[1] = _mavLink.node_gps[j].node[1];
-                    byte[] get_data = _loraframe.unicast(node_mac, _mavLink.RTL);
-                    _serialPort.Write(get_data, 0, get_data.Length);        //Send data.
-                }
+                //for (int j = 0; j < _mavLink.node_gps.Count; j++)
+                //{
+                //    byte[] node_mac = new byte[2];
+                //    node_mac[0] = _mavLink.node_gps[j].node[0];
+                //    node_mac[1] = _mavLink.node_gps[j].node[1];
+                //    byte[] get_data = _loraframe.unicast(node_mac, _mavLink.RTL);
+                //    _serialPort.Write(get_data, 0, get_data.Length);        //Send data.
+                //}
+                byte[] get_data = _loraframe.broadcast(_mavLink.RTL);
+                _serialPort.Write(get_data, 0, get_data.Length);        //Send data.
             }
         }
 
-        private void show_func(int mac_a1, int mac_a2, int mac_b1, int mac_b2, int mac_c1, int mac_c2, int mac_d1, int mac_d2, int mac_e1, int mac_e2, int lat_a, int lon_a, int lat_b, int lon_b, int lat_c, int lon_c, int lat_d, int lon_d, int lat_e, int lon_e, int alt_a, int alt_b, int alt_c, int alt_d, int alt_e)
+        private void show_func(int num, Node_position[] data)
         {
-            byte[] node_mac = new byte[2];
-            node_mac[0] = Convert.ToByte(mac_a1);
-            node_mac[1] = Convert.ToByte(mac_a2);
-            byte[] get_data = _loraframe.unicast(node_mac, _mavLink.Fly2here(alt_a, base_lat + (float)(lat_a * 0.00006), base_lon + (float)(lon_a * 0.00006)));
-            _serialPort.Write(get_data, 0, get_data.Length);        //Send data.
-
-            node_mac[0] = Convert.ToByte(mac_b1);
-            node_mac[1] = Convert.ToByte(mac_b2);
-            get_data = _loraframe.unicast(node_mac, _mavLink.Fly2here(alt_b, base_lat + (float)(lat_b * 0.00006), base_lon + (float)(lon_b * 0.00006)));
-            _serialPort.Write(get_data, 0, get_data.Length);        //Send data.
-
-            node_mac[0] = Convert.ToByte(mac_c1);
-            node_mac[1] = Convert.ToByte(mac_c2);
-            get_data = _loraframe.unicast(node_mac, _mavLink.Fly2here(alt_c, base_lat + (float)(lat_c * 0.00006), base_lon + (float)(lon_c * 0.00006)));
-            _serialPort.Write(get_data, 0, get_data.Length);        //Send data.
-
-            node_mac[0] = Convert.ToByte(mac_d1);
-            node_mac[1] = Convert.ToByte(mac_d2);
-            get_data = _loraframe.unicast(node_mac, _mavLink.Fly2here(alt_d, base_lat + (float)(lat_d * 0.00006), base_lon + (float)(lon_d * 0.00006)));
-            _serialPort.Write(get_data, 0, get_data.Length);        //Send data.
-
-            node_mac[0] = Convert.ToByte(mac_e1);
-            node_mac[1] = Convert.ToByte(mac_e2);
-            get_data = _loraframe.unicast(node_mac, _mavLink.Fly2here(alt_e, base_lat + (float)(lat_e * 0.00006), base_lon + (float)(lon_e * 0.00006)));
-            _serialPort.Write(get_data, 0, get_data.Length);        //Send data.
+            for (int i = 0; i < num; i++)
+            {
+                Console.WriteLine("{0} {1} {2} {3} {4}:{5}", data[i].mac_1, data[i].mac_2, data[i].lat, data[i].lon, data[i].alt,i);
+                byte[] node_mac = new byte[2];
+                node_mac[0] = Convert.ToByte(data[i].mac_1);
+                node_mac[1] = Convert.ToByte(data[i].mac_2);
+                byte[] get_data = _loraframe.unicast(node_mac, _mavLink.Fly2here(data[i].alt, base_lat + (float)(data[i].lat * 0.00006), base_lon + (float)(data[i].lon * 0.00006)));
+                _serialPort.Write(get_data, 0, get_data.Length);        //Send data.
+            }
         }
 
         private void btn_cleargps_Click(object sender, EventArgs e)
@@ -855,6 +846,7 @@ namespace EasySwarm
             try
             {
                 byte[] cmd_go = new byte[8] { 0xff, 0x01, 0x05, 0x00, 0x00, 0x00, 0x00, 0xff };
+                cmd_go[2] = Convert.ToByte(cbox_speed.Text);    //Get speed 
                 byte[] get_data = _loraframe.broadcast(cmd_go);
                 _serialPort.Write(get_data, 0, get_data.Length);        //Send data.
             }
@@ -869,7 +861,8 @@ namespace EasySwarm
         {
             try
             {
-                byte[] cmd_back = new byte[8] { 0xff, 0x02, 0x05, 0x00, 0x00, 0x00, 0x00, 0xff };
+                byte[] cmd_back = new byte[] { 0xff, 0x02, 0x05, 0x00, 0x00, 0x00, 0x00, 0xff };
+                cmd_back[2] = Convert.ToByte(cbox_speed.Text);    //Get speed 
                 byte[] get_data = _loraframe.broadcast(cmd_back);
                 _serialPort.Write(get_data, 0, get_data.Length);        //Send data.
             }
@@ -961,6 +954,11 @@ namespace EasySwarm
                 }
             });
 
+        }
+
+        private void Easyswarm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            System.Environment.Exit(0);
         }
     }
 }

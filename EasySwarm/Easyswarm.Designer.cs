@@ -1749,7 +1749,7 @@
             this.skinTabControl1.PageImagePosition = CCWin.SkinControl.SkinTabControl.ePageImagePosition.Top;
             this.skinTabControl1.PageNorml = null;
             this.skinTabControl1.PageNormlTxtColor = System.Drawing.Color.White;
-            this.skinTabControl1.SelectedIndex = 0;
+            this.skinTabControl1.SelectedIndex = 1;
             this.skinTabControl1.Size = new System.Drawing.Size(1012, 664);
             this.skinTabControl1.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.skinTabControl1.TabIndex = 0;
@@ -1773,6 +1773,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "";
             this.TitleColor = System.Drawing.Color.White;
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Easyswarm_FormClosed);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.skinTabPage4.ResumeLayout(false);
             this.skinTabControl2.ResumeLayout(false);

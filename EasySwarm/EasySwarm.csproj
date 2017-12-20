@@ -83,7 +83,6 @@
     <Compile Include="Easyswarm.Designer.cs">
       <DependentUpon>Easyswarm.cs</DependentUpon>
     </Compile>
-    <Compile Include="IEversion.cs" />
     <Compile Include="Mavlink.cs" />
     <Compile Include="MultiLanguage.cs" />
     <Compile Include="Program.cs" />
