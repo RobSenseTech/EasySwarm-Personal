@@ -51,7 +51,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>PC_ico.ico</ApplicationIcon>
+    <ApplicationIcon>drone.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CSkin">
@@ -136,9 +136,11 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\picture1.Image.png" />
+    <None Include="Resources\picture2.png" />
+    <None Include="Resources\picture1.png" />
     <None Include="Image\picture2.png" />
     <None Include="Image\picture1.png" />
+    <Content Include="drone.ico" />
     <Content Include="PC_ico.ico" />
   </ItemGroup>
   <ItemGroup>

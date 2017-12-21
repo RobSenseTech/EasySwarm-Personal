@@ -136,6 +136,7 @@ namespace EasySwarm
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            skinTabControl1.SelectedIndex = 0;
             //Load language
             MultiLanguage.LoadLanguage(this, typeof(Easyswarm));
             if (StartForm.ENorCH)
